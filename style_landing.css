@@ -1,0 +1,352 @@
+:root {
+    --cor-principal: #5F50F8; /* Roxo */
+    --cor-secundaria: #fff;
+    --cor-texto-principal: #1d1d1d;
+    --cor-btn-azul: #2196F3;
+    --cor-btn-roxo: #9370DB;
+    --cor-btn-verde: #4CAF50;
+    --cor-btn-vermelho: #f04848;
+    --cor-fundo-secao: #f7f7ff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--cor-texto-principal);
+    line-height: 1.6;
+}
+
+section {
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.section-header {
+    max-width: 700px;
+    margin: 0 auto 50px;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    color: var(--cor-texto-principal);
+    margin-bottom: 10px;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: #6a6a6a;
+}
+
+
+.btn-cta {
+    display: inline-block;
+    background-color: var(--cor-btn-verde);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-cta:hover {
+    background-color: #3e8e41;
+    transform: translateY(-2px);
+}
+
+.large-cta {
+    font-size: 1.3rem;
+    padding: 18px 40px;
+}
+
+.btn-primary-small {
+    background-color: var(--cor-principal);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: opacity 0.3s;
+}
+
+.btn-primary-small:hover {
+    opacity: 0.9;
+}
+
+
+#landing-header {
+    background-color: var(--cor-secundaria);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+#landing-header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 20px;
+}
+
+#landing-header #logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-text {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--cor-texto-principal);
+}
+
+
+#hero-section {
+    background-color: var(--cor-fundo-secao);
+    padding: 100px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    text-align: left;
+}
+
+.hero-content {
+    max-width: 500px;
+    margin-bottom: 40px;
+}
+
+.tagline {
+    display: block;
+    color: var(--cor-principal);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+#hero-section h1 {
+    font-size: 3.2rem;
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    color: var(--cor-texto-principal);
+}
+
+#hero-section h1 strong {
+    font-weight: 700;
+}
+
+#hero-section p {
+    font-size: 1.2rem;
+    color: #4a4a4a;
+    margin-bottom: 30px;
+}
+
+.hero-cta-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.small-text {
+    font-size: 0.85rem;
+    color: #6a6a6a;
+}
+
+.hero-image-placeholder {
+    width: 450px;
+    height: 300px;
+    background-color: #e0e0f0;
+    border-radius: 10px;
+}
+
+#benefits-section {
+    background-color: white;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.benefit-card {
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s;
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.icon-benefit {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.benefit-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--cor-texto-principal);
+}
+
+.benefit-card p {
+    color: #6a6a6a;
+}
+
+/* Cores dos Ícones */
+.icon-benefit.purple { color: var(--cor-principal); }
+.icon-benefit.blue { color: var(--cor-btn-azul); }
+.icon-benefit.green { color: var(--cor-btn-verde); }
+.icon-benefit.red { color: var(--cor-btn-vermelho); }
+
+
+#social-proof-section {
+    background-color: var(--cor-fundo-secao);
+}
+
+.proof-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#social-proof-section i {
+    font-size: 3rem;
+    color: var(--cor-btn-roxo);
+    margin-bottom: 10px;
+}
+
+#social-proof-section h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+    color: var(--cor-texto-principal);
+}
+
+.stats-grid {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 40px;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--cor-principal);
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: #6a6a6a;
+}
+
+.testimonial {
+    font-style: italic;
+    font-size: 1.2rem;
+    padding: 20px;
+    border-left: 5px solid var(--cor-btn-verde);
+    background-color: #fff;
+    margin-top: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.testimonial footer {
+    display: block;
+    margin-top: 10px;
+    font-style: normal;
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: bold;
+}
+
+
+#final-cta-section {
+    background: linear-gradient(135deg, var(--cor-principal), var(--cor-btn-roxo));
+    color: white;
+    padding: 100px 20px;
+}
+
+#final-cta-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: white;
+}
+
+#final-cta-section p {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+}
+
+#landing-footer {
+    background-color: var(--cor-texto-principal);
+    color: #ccc;
+    padding: 20px;
+    font-size: 0.8rem;
+}
+
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 900px) {
+    #hero-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 60px 20px;
+    }
+    .hero-content {
+        max-width: 100%;
+        margin-bottom: 40px;
+        align-items: center;
+    }
+    #hero-section h1 {
+        font-size: 2.5rem;
+    }
+    .hero-cta-group {
+        align-items: center;
+    }
+    .hero-image-placeholder {
+        width: 100%;
+        max-width: 400px;
+        height: 250px;
+    }
+    .stats-grid {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .stat-item {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    #final-cta-section h2 {
+        font-size: 2rem;
+    }
+    .btn-cta {
+        font-size: 1rem;
+        padding: 12px 25px;
+    }
+    .large-cta {
+        font-size: 1.1rem;
+        padding: 15px 30px;
+    }
+}

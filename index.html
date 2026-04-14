@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEXPLICA - Ajuda</title>
+    <link rel="stylesheet" href="style_welcome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body> 
+    <header>
+        <nav>
+            <div id="logo-container">
+                <a href="#" style="color: #000; text-decoration: none; font-size: 1.2rem; font-weight: bold;">
+                    <span>MEXPLICA</span>
+                </a>
+            </div>
+            
+            <ul id="lista" type="none">
+                <li><a href="#">Colabore</a></li>
+                <li><a href="#">Comunidade</a></li>
+                <li><a href="#">Ajuda</a></li>
+                <li><a href="#">Sobre</a></li>
+            </ul>
+
+            <div id="user-controls">
+                <i class="fas fa-user-circle user-icon"></i>
+                <a href="cadastro.html"><input type="button" value="acessar conta" id="acessarContaBtn"></a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="content-wrapper"> 
+            
+            <div id="config-buttons">
+                <button class="config-btn blue-btn">
+                    <i class="fas fa-universal-access" style="margin-right: 5px;"></i> ACESSIBILIDADE 
+                    <i class="fas fa-chevron-down" style="margin-left: 8px; font-size: 0.8rem;"></i>
+                </button>
+                <button class="config-btn purple-btn">
+                    <i class="fas fa-font" style="margin-right: 5px;"></i> AUMENTAR TEXTO
+                </button>
+            </div>
+            
+            <div id="main-icon">
+                <a href="#" style="color: #000; text-decoration: none; font-size: 1.2rem; font-weight: bold; ">
+                    <span style="font-size: 80px;">MEXPLICA</span>
+                </a>
+            </div>
+
+            <h1>Bom dia! Qual seria sua dúvida de hoje?</h1>
+
+            <div id="search-box-container">
+                <div id="search-input-area">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Pesquise por qualquer dúvida que tiver" aria-label="Pesquisar">
+                    <i class="fas fa-microphone" id="search-voice-btn" aria-label="Pesquisa por voz"></i>
+                </div>
+
+                <div id="search-options">
+                    <button class="option-btn"><i class="fas fa-camera"></i> Pesquisa por imagem</button>
+                    <button class="option-btn"><i class="fas fa-filter"></i> Filtrar busca</button>
+                </div>
+            </div>
+            
+            <div id="contact-options">
+                <button class="contact-btn call-btn">
+                    <i class="fas fa-phone-alt"></i>
+                    <h2>Ligar para colaborador</h2>
+                    <p>Entre em contato por telefone com um de nossos colaboradores.</p>
+                </button>
+                <button class="contact-btn chat-btn">
+                    <i class="fas fa-comment-dots"></i>
+                    <h2>Chat com colaborador</h2>
+                    <p>Entre em contato por mensagem com um de nossos colaboradores.</p>
+                </button>
+            </div>
+        </div>
+
+        <hr> 
+        
+        <section id="most-searched-section">
+            <div class="content-wrapper">
+                <i class="fas fa-search search-icon-lg"></i>
+                <h2>Veja os itens mais buscados pelos usuários abaixo:</h2>
+                <p class="section-subtitle">
+                    Abaixo listamos os resultados dos tópicos mais comuns que nossos usuários fazem por dia.
+                </p>
+
+                <div id="status-indicators">
+                    <div class="indicator">
+                        <span class="dot red-dot"></span>
+                        <span class="text">Resultados DE RISCO são sobre segurança e intrusão.</span>
+                    </div>
+                    <div class="indicator">
+                        <span class="dot green-dot"></span>
+                        <span class="text">Resultados VÁLIDOS sobre comunicação e interação.</span>
+                    </div>
+                    <div class="indicator">
+                        <span class="dot blue-dot"></span>
+                        <span class="text">Resultados BÁSICOS sobre dúvidas autorizadas.</span>
+                    </div>
+                </div>
+
+                <div id="filter-buttons">
+                    <button class="filter-btn primary-btn"><i class="fas fa-filter"></i> FILTRAR </button>
+                    <button class="filter-btn secondary-btn"><i class="fas fa-chart-bar"></i> VISUALIZAÇÃO POR DÚVIDAS</button>
+                </div>
+
+                <div id="topic-cards-grid">
+                    <div class="topic-card valid-card">
+                        <i class="fas fa-comment-dots"></i>
+                        <h3>Como usar o WhatsApp corretamente?</h3>
+                        <p>Entre em contato por mensagem com um de nossos colaboradores.</p>
+                    </div>
+                    <div class="topic-card risk-card">
+                        <i class="fas fa-phone-alt"></i>
+                        <h3>Como saber quando um site é seguro para usar?</h3>
+                        <p>Entre em contato por telefone com um de nossos colaboradores.</p>
+                    </div>
+                    <div class="topic-card basic-card">
+                        <i class="fas fa-phone-alt"></i>
+                        <h3>Como aumentar as letras do celular?</h3>
+                        <p>Entre em contato por telefone com um de nossos colaboradores.</p>
+                    </div>
+                    <div class="topic-card valid-card">
+                        <i class="fas fa-comment-dots"></i>
+                        <h3>Como encontrar meus amigos no Facebook?</h3>
+                        <p>Entre em contato por mensagem com um de nossos colaboradores.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="collaborator-section">
+            <div class="content-wrapper">
+                <i class="fas fa-users users-icon-lg"></i>
+                <h2>O que é e como ser um colaborador?</h2>
+                <p class="section-subtitle">
+                    Entenda o que é ser um colaborador e como você pode se tornar um de nós!
+                </p>
+
+                <div id="collaborator-indicators">
+                    <div class="indicator">
+                        <span class="dot red-dot"></span>
+                        <span class="text">Colaboradores COMUNS respondem perguntas e enviam vídeos.</span>
+                    </div>
+                    <div class="indicator">
+                        <span class="dot green-dot"></span>
+                        <span class="text">Colaboradores DIAMANTE entram no ranking de colaboradores.</span>
+                    </div>
+                    <div class="indicator">
+                        <span class="dot blue-dot"></span>
+                        <span class="text">Colaboradores PLATINA recebem informações por telefone ou chat com o usuário.</span>
+                    </div>
+                </div>
+
+                <div id="steps-grid">
+                    <div class="step-card purple-step">
+                        <i class="fas fa-user-plus"></i>
+                        <h3>1 - Crie uma conta como colaborador</h3>
+                        <p>Faça login ou crie uma conta com um email válido e senha forte.</p>
+                        <div class="play-button"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="step-card green-step">
+                        <i class="fas fa-mouse-pointer"></i>
+                        <h3>1 - Selecione seu modo de colaboração que preferir.</h3>
+                        <p>Faça login ou crie uma conta com um email válido e senha forte.</p>
+                        <div class="play-button"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="step-card green-step">
+                        <i class="fas fa-question-circle"></i>
+                        <h3>1 - Responda perguntas ou poste possíveis dúvidas.</h3>
+                        <p>Faça login ou crie uma conta com um email válido e senha forte.</p>
+                        <div class="play-button"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="step-card green-step">
+                        <i class="fas fa-eye"></i>
+                        <h3>1 - Veja os comentários em tempo real.</h3>
+                        <p>Faça login ou crie uma conta com um email válido e senha forte.</p>
+                        <div class="play-button"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="step-card purple-step">
+                        <i class="fas fa-star"></i>
+                        <h3>Por fim, acesse seus pontos e receba estrelas para subir de nível.</h3>
+                        <p>Faça login ou crie uma conta com um email válido e senha forte.</p>
+                        <div class="play-button"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="step-card purple-step">
+                        <i class="fas fa-medal"></i>
+                        <h3>Com o tempo, você pode solicitar verificação para ser PLATINA.</h3>
+                        <p>Colaboradores platina podem receber ligações, chat com usuários e deverão enviar as dicas dos usuários.</p>
+                        <div class="play-button"><i class="fas fa-play"></i></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div id="footer-content-wrapper">
+            <div id="footer-logo-full">
+                <span>MEXPLICA</span>
+            </div>
+
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h4>CONTEÚDO</h4>
+                    <ul>
+                        <li><a href="#">SUPORTE</a></li>
+                        <li><a href="#">POLÍTICA DE PRIVACIDADE</a></li>
+                        <li><a href="#">TERMOS DE USO</a></li>
+                        <li><a href="#">BLOG</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>DÚVIDAS FREQUENTES</h4>
+                    <ul>
+                        <li><a href="#">PARCERIAS</a></li>
+                        <li><a href="#">TERMOS DE SERVIÇO</a></li>
+                        <li><a href="#">FEEDBACK</a></li>
+                        <li><a href="#">MÍDIAS SOCIAIS</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>ATENDIMENTO</h4>
+                    <ul>
+                        <li><a href="#">APOIO TÉCNICO</a></li>
+                        <li><a href="#">SEGURANÇA</a></li>
+                        <li><a href="#">EVENTOS</a></li>
+                        <li><a href="#">NEWSLETTER</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="footer-copyright">
+            <aside>
+                <a href="https://github.com/wladneijr" target="_blank" style="color: white; text-decoration: none;">
+                    <p>&copy;MEXPLICA</p>
+                </a>
+            </aside>
+        </div>
+    </footer>
+</body>
+</html>

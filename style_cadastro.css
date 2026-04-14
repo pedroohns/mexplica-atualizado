@@ -1,0 +1,189 @@
+:root {
+    --cor-principal: #5F50F8; 
+    --cor-secundaria: #fff;
+    --cor-texto-principal: #1d1d1d;
+    --cor-texto-secundario: #6a6a6a;
+    --cor-btn-roxo: #9370DB; 
+    --cor-btn-vermelho: #f04848;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: var(--cor-secundaria);
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header & Nav */
+#cadastro-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 20px;
+    height: 70px;
+}
+
+#lista { list-style: none; display: flex; gap: 30px; }
+#lista li a { color: var(--cor-texto-principal); text-decoration: none; font-weight: 600; }
+
+#acessarContaBtn {
+    background: transparent;
+    border: 1px solid var(--cor-texto-principal);
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+/* Main Content */
+#cadastro-main {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.cadastro-content {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+}
+
+#back-button {
+    background: var(--cor-btn-roxo);
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    top: -50px;
+    left: 0;
+}
+
+.cadastro-title { font-size: 2.5rem; margin-bottom: 10px; }
+.cadastro-subtitle { color: var(--cor-texto-secundario); margin-bottom: 30px; }
+
+/* Options Buttons */
+#signup-options { display: flex; gap: 15px; margin-bottom: 25px; }
+.option-button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    font-weight: 600;
+}
+.option-button.active {
+    background: var(--cor-btn-roxo);
+    color: white;
+    border-color: var(--cor-btn-roxo);
+}
+
+/* Form Elements */
+/* --- ESTILIZAÇÃO COMPLETA DO FORMULÁRIO --- */
+
+#cadastro-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px; /* Mantém o formulário com um tamanho bom */
+    margin: 0 auto; /* Centraliza na tela */
+    padding: 20px;
+}
+
+/* Estilo do Campo de Input (o retângulo cinza da imagem) */
+#campo-input {
+    width: 100%;
+    padding: 50px 35px; /* Aumenta o espaço interno para ficar mais alto */
+    margin-bottom: 25px; /* Espaço maior até o botão */
+    border: 2px solid #e0e0e0; /* Borda cinza clara e suave */
+    border-radius: 50px; /* Arredondamento total nas pontas (estilo pílula) */
+    font-size: 1rem;
+    color: var(--cor-texto-principal);
+    background-color: #fff;
+    outline: none; /* Remove a borda padrão do navegador ao clicar */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Animação suave */
+    text-align: left;
+}
+
+/* Efeito ao clicar/focar no input */
+#campo-input:focus {
+    border-color: var(--cor-principal); /* Muda a borda para roxo */
+    box-shadow: 0 0 0 4px rgba(95, 80, 248, 0.1); /* Adiciona um brilho roxo suave */
+}
+
+/* Ajuste do Placeholder (o texto "Insira seu email") */
+#campo-input::placeholder {
+    color: #a0a0a0; /* Cinza mais claro para o placeholder */
+    font-weight: 400;
+}
+
+/* Estilo do Botão "Continuar" (o oval roxo) */
+.continue-button {
+    width: 100%;
+    padding: 16px 0; /* Botão mais alto e imponente */
+    background-color: var(--cor-principal); /* Teu roxo original */
+    color: white;
+    border: none;
+    border-radius: 50px; /* Arredondamento total nas pontas */
+    font-size: 1.1rem;
+    font-weight: 700; /* Texto mais negrito */
+    text-transform: none; /* Mantém "Continuar" normal, sem maiúsculas */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s; /* Animações */
+    box-shadow: 0 4px 15px rgba(95, 80, 248, 0.2); /* Sombra roxa suave no botão */
+}
+
+/* Efeito ao passar o rato no botão */
+.continue-button:hover {
+    background-color: #4a38e8; /* Um roxo ligeiramente mais escuro */
+    box-shadow: 0 6px 20px rgba(95, 80, 248, 0.3); /* Sombra aumenta */
+}
+
+/* Efeito ao clicar no botão */
+.continue-button:active {
+    transform: translateY(1px); /* Botão "afunda" ligeiramente */
+    box-shadow: 0 2px 10px rgba(95, 80, 248, 0.2); /* Sombra diminui */
+}
+
+/* Estilo do Texto "Estou com problemas..." */
+.form-error-message {
+    margin-top: 20px; /* Espaço após o botão */
+    font-size: 0.9rem;
+    color: var(--cor-texto-secundario); /* Cinza suave */
+    cursor: pointer;
+    font-weight: 500;
+    transition: color 0.2s;
+    text-align: center;
+}
+
+/* Efeito de hover no texto de ajuda */
+.form-error-message:hover {
+    color: var(--cor-principal); /* Muda para roxo ao passar o rato */
+    text-decoration: underline; /* Adiciona sublinhado */
+}
+.continue-button {
+    padding: 15px;
+    background: var(--cor-principal);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    #back-button { position: static; margin-bottom: 20px; }
+    #signup-options { flex-direction: column; }
+}
