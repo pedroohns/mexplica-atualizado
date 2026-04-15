@@ -4,8 +4,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // GREETING - isso aqui funciona da seguinte forma: a variavel puxa o elemento greeting e nele ta considerado new Date().getHours, que fazem
-    // o trabalho de condicionar que tipo de texto vai aparecer dependendo do horario do dia
+    // GREETING - isso aqui funciona da seguinte forma: a variavel puxa o elemento greeting e nele ta considerado new Date().getHours, que fazem o trabalho de condicionar que tipo de texto vai aparecer dependendo do horario do dia
     const greetingEl = document.getElementById('greeting');
     if (greetingEl) {
         const hour = new Date().getHours();
