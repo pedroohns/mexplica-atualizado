@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEXPLICA - Página Inicial</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="icons/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="index.html" class="nav-logo">
+                <img src="icons/logo-mexplica.png" alt="MEXPLICA" class="logo-icon">
+            </a>
+            <ul class="nav-links">
+                <li><a href="cadastro.html">Colabore</a></li>
+                <li><a href="#">Comunidade</a></li>
+                <li><a href="#">Ajuda</a></li>
+                <li><a href="#">Sobre</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="cadastro.html" class="btn-acessar">acessar conta</a>
+                <div class="avatar-placeholder" id="user-avatar" aria-label="Perfil do usuário"></div>
+            </div>
+            <button class="nav-toggle" aria-label="Abrir menu" id="navToggle">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+
+        <!-- HERO / SEARCH SECTION (BARRA DE PESQUISA E BOTOES) -->
+        <section class="hero-section">
+            <div class="container hero-inner">
+
+                <!-- BOTOES DE ACESSIBILIDADE -->
+                <div class="accessibility-bar">
+                    <button class="acc-btn acc-blue" id="toggleAccessibility">
+                        <img src="icons/icons8-acessibilidade-16.png" alt="" aria-hidden="true">
+                        ACESSIBILIDADE
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <button class="acc-btn acc-purple" id="toggleFontSize">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><text x="1" y="12" font-size="11" fill="currentColor" font-family="sans-serif" font-weight="bold">Aa</text></svg>
+                        AUMENTAR TEXTO
+                    </button>
+                </div>
+
+                <!-- LOGO -->
+                <div class="hero-logo">
+                    <img src="icons/logo-mexplica.png" alt="MEXPLICA" class="hero-logo-img">
+                </div>
+
+                <!-- GREETING - MAIS SOBRE ISSO NO JAVASCRIPT -->
+                <h1 class="hero-title" id="greeting">Bom dia! Qual seria sua dúvida de hoje?</h1>
+
+                <!-- SEARCH BOX -->
+                <div class="search-box">
+                    <div class="search-input-wrap">
+                        <img src="icons/lupa.png" alt="buscar" class="search-icon-img">
+                        <input 
+                            type="text" 
+                            class="search-input" 
+                            placeholder="Pesquise por qualquer dúvida que tiver"
+                            aria-label="Campo de pesquisa"
+                            id="searchInput"
+                        >
+                        <button class="search-voice-btn" aria-label="Pesquisa por voz">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                        </button>
+                    </div>
+                    <div class="search-options">
+                        <button class="search-opt-btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            Pesquisa por imagem
+                        </button>
+                        <button class="search-opt-btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                            Filtrar busca
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CARDS DE CONTATO -->
+                <div class="contact-cards">
+                    <button class="contact-card card-phone">
+                        <img src="icons/telefone.png" alt="" class="card-icon-img" aria-hidden="true">
+                        <div class="card-text">
+                            <strong>Ligar para colaborador</strong>
+                            <p>Entre em contato por telefone com um de nossos colaboradores.</p>
+                        </div>
+                    </button>
+                    <button class="contact-card card-chat">
+                        <img src="icons/chat.png" alt="" class="card-icon-img" aria-hidden="true">
+                        <div class="card-text">
+                            <strong>Chat com colaborador</strong>
+                            <p>Entre em contato por mensagem com um de nossos colaboradores.</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ITENS MAIS BUSCADOS PELOS USUARIOS -->
+        <section class="most-searched-section">
+            <div class="container">
+                <div class="section-header">
+                    <img src="icons/lupa.png" alt="" class="section-icon-img" aria-hidden="true">
+                    <h2>Veja os itens mais buscados pelos usuários abaixo:</h2>
+                    <p class="section-subtitle">Abaixo listamos os resultados dos tópicos mais comuns que nossos usuários fazem por dia.</p>
+                </div>
+
+                <div class="legend-bar">
+                    <div class="legend-item">
+                        <span class="dot dot-red"></span>
+                        <span>Resultados <strong>VERMELHOS</strong> são sobre segurança e usabilidade.</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="dot dot-green"></span>
+                        <span>Resultados <strong>VERDES</strong> são sobre comunicação e interação.</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="dot dot-blue"></span>
+                        <span>Resultados <strong>AZUIS</strong> são sobre sistemas e acessibilidade.</span>
+                    </div>
+                </div>
+
+                <div class="filter-bar">
+                    <button class="filter-btn" id="filterBtn">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                        FILTRAR
+                        <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    </button>
+                    <button class="filter-btn filter-btn-outline" id="viewBtn">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                        VISUALIZAÇÃO POR QUADROS
+                    </button>
+                </div>
+
+                <div class="topic-grid" id="topicGrid">
+                    <div class="topic-card topic-green">
+                        <img src="icons/chat.png" alt="" class="topic-icon" aria-hidden="true">
+                        <h3>Como usar o WhatsApp corretamente?</h3>
+                        <p>Entre em contato por mensagem com um de nossos colaboradores.</p>
+                    </div>
+                    <div class="topic-card topic-red">
+                        <img src="icons/telefone.png" alt="" class="topic-icon" aria-hidden="true">
+                        <h3>Como saber quando um site é seguro para usar?</h3>
+                        <p>Entre em contato por telefone com um de nossos colaboradores.</p>
+                    </div>
+                    <div class="topic-card topic-blue">
+                        <img src="icons/telefone.png" alt="" class="topic-icon" aria-hidden="true">
+                        <h3>Como aumentar as letras do celular?</h3>
+                        <p>Entre em contato por telefone com um de nossos colaboradores.</p>
+                    </div>
+                    <div class="topic-card topic-green">
+                        <img src="icons/chat.png" alt="" class="topic-icon" aria-hidden="true">
+                        <h3>Como encontrar meus amigos no Facebook?</h3>
+                        <p>Entre em contato por mensagem com um de nossos colaboradores.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION DE COLABORADORES -->
+        <section class="collab-section">
+            <div class="container">
+                <div class="section-header">
+                    <img src="icons/colaboradores.png" alt="" class="section-icon-img" aria-hidden="true">
+                    <h2>O que é e como ser um colaborador?</h2>
+                    <p class="section-subtitle">Entenda o que é ser um colaborador e como você pode se tornar um de nós!</p>
+                </div>
+
+                <div class="legend-bar">
+                    <div class="legend-item">
+                        <span class="dot dot-red"></span>
+                        <span>Colaboradores <strong>COMUNS</strong> respondem perguntas e enviam mídias.</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="dot dot-green"></span>
+                        <span>Colaboradores <strong>DIAMANTE</strong> entram no ranking de colaboradores.</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="dot dot-blue"></span>
+                        <span>Colaboradores <strong>PLATINA</strong> recebem chamadas por telefone ou chat com o usuário.</span>
+                    </div>
+                </div>
+
+                <div class="steps-grid">
+                    <div class="step-card step-purple">
+                        <div class="step-avatar">
+                            <img src="icons/colaborador.png" alt="" aria-hidden="true">
+                        </div>
+                        <div class="step-content">
+                            <h3>1 - Crie uma conta como colaborador</h3>
+                            <p>Faça login ou crie uma conta com um email válido e senha forte.</p>
+                        </div>
+                        <div class="step-video">
+                            <button class="play-btn" aria-label="Assistir tutorial">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="step-card step-green">
+                        <div class="step-avatar">
+                            <img src="icons/colaborador.png" alt="" aria-hidden="true">
+                        </div>
+                        <div class="step-content">
+                            <h3>1 - Selecione seu modo de colaboração que preferir.</h3>
+                            <p>Faça login ou crie uma conta com um email válido e senha forte.</p>
+                        </div>
+                        <div class="step-video">
+                            <button class="play-btn" aria-label="Assistir tutorial">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="step-card step-green">
+                        <div class="step-avatar">
+                            <img src="icons/colaborador.png" alt="" aria-hidden="true">
+                        </div>
+                        <div class="step-content">
+                            <h3>1 - Responda perguntas ou poste possíveis dúvidas.</h3>
+                            <p>Faça login ou crie uma conta com um email válido e senha forte.</p>
+                        </div>
+                        <div class="step-video">
+                            <button class="play-btn" aria-label="Assistir tutorial">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="step-card step-green">
+                        <div class="step-avatar">
+                            <img src="icons/colaborador.png" alt="" aria-hidden="true">
+                        </div>
+                        <div class="step-content">
+                            <h3>1 - Veja os comentários em tempo real.</h3>
+                            <p>Faça login ou crie uma conta com um email válido e senha forte.</p>
+                        </div>
+                        <div class="step-video">
+                            <button class="play-btn" aria-label="Assistir tutorial">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="step-card step-green">
+                        <div class="step-avatar">
+                            <img src="icons/colaborador.png" alt="" aria-hidden="true">
+                        </div>
+                        <div class="step-content">
+                            <h3>Por fim, acesse seus pontos e receba estrelas para subir de nível!</h3>
+                            <p>Faça login ou crie uma conta com um email válido e senha forte.</p>
+                        </div>
+                        <div class="step-video">
+                            <button class="play-btn" aria-label="Assistir tutorial">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="step-card step-lighter">
+                        <div class="step-avatar">
+                            <img src="icons/colaborador.png" alt="" aria-hidden="true">
+                        </div>
+                        <div class="step-content">
+                            <h3>Com o tempo, você pode solicitar verificação para ser PLATINA.</h3>
+                            <p>Colaboradores platina podem receber ligações, conversar por chat e até mesmo receber doações dos usuários.</p>
+                        </div>
+                        <div class="step-video">
+                            <button class="play-btn" aria-label="Assistir tutorial">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <img src="icons/logo-completa.png" alt="" class="footer-logo-icon" aria-hidden="true">
+            </div>
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h4>CONTATO</h4>
+                    <ul>
+                        <li><a href="#">SUPORTE</a></li>
+                        <li><a href="#">POLÍTICA DE PRIVACIDADE</a></li>
+                        <li><a href="#">TERMO DE USO</a></li>
+                        <li><a href="#">BLOG</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>DÚVIDAS FREQUENTES</h4>
+                    <ul>
+                        <li><a href="#">CARREIRAS</a></li>
+                        <li><a href="#">TERMOS DE SERVIÇO</a></li>
+                        <li><a href="#">FEEDBACK</a></li>
+                        <li><a href="#">REDE SOCIAL</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>ATENDIMENTO</h4>
+                    <ul>
+                        <li><a href="#">APOIO TÉCNICO</a></li>
+                        <li><a href="#">SEGURANÇA</a></li>
+                        <li><a href="#">EVENTOS</a></li>
+                        <li><a href="#">NEWSLETTER</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copy">
+            <span>© MEXPLICA 2025. Todos os direitos reservados.</span>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
