@@ -559,7 +559,6 @@ button {
 
 
 /* SECTION DE COLABORADORES */
-
 .collab-section {
     padding: 56px 0 60px;
     background: #ffffff;
@@ -583,9 +582,9 @@ button {
     overflow: hidden;
 }
 
-.step-purple  { background: #7B6EF6; }
+.step-blue  { background: #4A90D9; }
 .step-green   { background: #3D9E68; }
-.step-lighter { background: #9B91F8; }
+.step-red { background: #E05C5C; }
 
 /* AVATAR DO COLABORADOR */
 .step-avatar {

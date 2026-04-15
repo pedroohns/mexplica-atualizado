@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fontBtn.addEventListener('click', () => {
             large = !large;
             document.body.classList.toggle('font-large', large);
-            const svg = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><text x="1" y="12" font-size="11" fill="currentColor" font-family="sans-serif" font-weight="bold">Aa</text></svg>`;
+            const svg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><text x="1" y="18" font-size="16" fill="#ffffff" font-family="sans-serif" font-weight="900">Aa</text></svg>`;
             fontBtn.innerHTML = svg + (large ? ' DIMINUIR TEXTO' : ' AUMENTAR TEXTO');
         });
     }
