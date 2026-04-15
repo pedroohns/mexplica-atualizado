@@ -1,10 +1,10 @@
 /* ============================================
    MEXPLICA - style.css
    fontes: Nimbus Sans (titulos) + Inter (corpo)
-   esse style.css é o arquivo principal de estilos do projeto, onde estão organizados os estilos globais, do layout e de cada seção da(s) pagina(s)
+   esse style.css é o arquivo principal de estilos do projeto, onde estao organizados os estilos globais, do layout e de cada seção da(s) pagina(s)
    ============================================ */
 
-/* Fallback via Google Fonts enquanto fontes locais não estão disponíveis */
+/* fonte inter importada do google fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 
@@ -15,7 +15,7 @@
 }
 
 
-/* ---- Reset ---- */
+/* reset basico */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -60,7 +60,7 @@ button {
     font-family: inherit;
 }
 
-/* ---- Layout ---- */
+/* layout */
 .container {
     max-width: 1060px;
     margin: 0 auto;
@@ -68,9 +68,7 @@ button {
 }
 
 
-/* ============================================
-   HEADER / NAV
-   ============================================ */
+/* HEADER // NAV */
 
 .header {
     position: sticky;
@@ -170,9 +168,7 @@ button {
 }
 
 
-/* ============================================
-   HERO SECTION
-   ============================================ */
+/* HERO SECTION */
 
 .hero-section {
     padding: 36px 0 32px;
@@ -187,7 +183,7 @@ button {
     gap: 22px;
 }
 
-/* Accessibility Buttons */
+/* BOTOES DE ACESSIBILIDADE */
 .accessibility-bar {
     display: flex;
     gap: 16px;
@@ -234,7 +230,7 @@ button {
     color: #ffffff;
 }
 
-/* Hero Logo */
+/* HERO LOGO */
 .hero-logo {
     margin-top: 4px;
 }
@@ -246,7 +242,7 @@ button {
     margin: 0 auto;
 }
 
-/* Hero Title */
+/* TITULO HERO */
 .hero-title {
     font-family: 'Nimbus Sans', sans-serif;
     font-size: 38px;
@@ -256,7 +252,7 @@ button {
     line-height: 1.15;
 }
 
-/* Search Box */
+/* SEARCH BOX */
 .search-box {
     width: 100%;
     max-width: 780px;
@@ -338,7 +334,7 @@ button {
     color: #7B6EF6;
 }
 
-/* Contact Cards */
+/* CARDS DE CONTATO */
 .contact-cards {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -398,9 +394,7 @@ button {
 }
 
 
-/* ============================================
-   MOST SEARCHED SECTION
-   ============================================ */
+/* SECTION MAIS PESQUISADOS */
 
 .most-searched-section {
     background: #dddaf5;
@@ -439,7 +433,7 @@ button {
     line-height: 1.55;
 }
 
-/* Legend Bar */
+/* LEGEND BAR */
 .legend-bar {
     display: flex;
     flex-wrap: wrap;
@@ -475,7 +469,7 @@ button {
 .dot-green { background: #4CAF7A; }
 .dot-blue  { background: #4A90D9; }
 
-/* Filter Bar */
+/* FILTER BAR */
 .filter-bar {
     display: flex;
     gap: 10px;
@@ -515,7 +509,7 @@ button {
     border-color: #5A50C8;
 }
 
-/* Topic Grid */
+/* GRID DE TOPICOS */
 .topic-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -564,9 +558,7 @@ button {
 .topic-blue  { background: #2979C8; }
 
 
-/* ============================================
-   COLLABORATOR SECTION
-   ============================================ */
+/* SECTION DE COLABORADORES */
 
 .collab-section {
     padding: 56px 0 60px;
@@ -580,7 +572,7 @@ button {
     margin-top: 28px;
 }
 
-/* Step cards — estrutura completamente nova seguindo o protótipo */
+/* STEP CARDS */
 .step-card {
     border-radius: 16px;
     padding: 20px 20px 18px;
@@ -595,7 +587,7 @@ button {
 .step-green   { background: #3D9E68; }
 .step-lighter { background: #9B91F8; }
 
-/* Avatar do colaborador — ícone de pessoa arredondado como no protótipo */
+/* AVATAR DO COLABORADOR */
 .step-avatar {
     width: 48px;
     height: 48px;
@@ -635,7 +627,7 @@ button {
     line-height: 1.5;
 }
 
-/* Video placeholder — retangulo branco com botão play centralizado */
+/* PLACEHOLDER DE VIDEO */
 .step-video {
     background: #ffffff;
     border-radius: 10px;
@@ -658,14 +650,13 @@ button {
     transition: background 0.18s, transform 0.18s;
 }
 
-/* Para o card roxo claro, o play btn usa cor diferente */
+/* PLAY BUTTONS */
 .step-purple .play-btn,
 .step-green .play-btn {
     background: rgba(0, 0, 0, 0.18);
     color: #ffffff;
 }
 
-/* Para o card lighter (platina), o play é mais escuro */
 .step-lighter .play-btn {
     background: rgba(80, 60, 180, 0.35);
     color: #ffffff;
@@ -677,10 +668,7 @@ button {
 }
 
 
-/* ============================================
-   FOOTER
-   ============================================ */
-
+/* FOOTER */
 .footer {
     background: #ffffff;
     color: #333333;
@@ -697,7 +685,7 @@ button {
     gap: 32px;
 }
 
-/* Logo + texto MEXPLICA lado a lado, em roxo */
+/* LOGO MEXPLICA COMPLETA */
 .footer-brand {
     display: flex;
     align-items: center;
@@ -708,10 +696,8 @@ button {
 .footer-logo-icon {
     height: 80px;
     width: auto;
-    /* Manter cor original do logo (roxo/lilás) */
 }
 
-/* Remover estilo antigo do footer-logo */
 .footer-logo {
     display: none;
 }
@@ -762,9 +748,8 @@ button {
 }
 
 
-/* ============================================
-   AUTH PAGE (cadastro.html)
-   ============================================ */
+/* PAGINA DE AUTENTICAÇÃO - CADASTRO.HTML */
+/* =========================================== */
 
 .auth-page {
     background: #f5f5f7;
@@ -797,7 +782,7 @@ button {
     display: none !important;
 }
 
-/* Back Button */
+/* BOTAO DE VOLT */
 .back-btn {
     display: inline-flex;
     align-items: center;
@@ -821,7 +806,7 @@ button {
     transform: translateX(-2px);
 }
 
-/* Auth Logo */
+/* LOGO AUTH */
 .auth-logo {
     text-align: center;
     margin-bottom: 20px;
@@ -844,7 +829,7 @@ button {
     100% { transform: scale(1); opacity: 1; }
 }
 
-/* Auth Typography */
+/* TITULO DA PAGINA DE AUTENTICAÇAO */
 .auth-title {
     font-family: 'Nimbus Sans', sans-serif;
     font-size: 32px;
@@ -865,7 +850,7 @@ button {
     line-height: 1.5;
 }
 
-/* Method Toggle */
+/* TOGGLE DE METODO DE AUTENTICAÇAO */
 .auth-method-toggle {
     display: flex;
     gap: 8px;
@@ -898,7 +883,7 @@ button {
     color: #ffffff !important;
 }
 
-/* Auth Form */
+/* FORMULARIO DE AUTENTICAÇAO */
 .auth-form {
     display: flex;
     flex-direction: column;
@@ -1000,7 +985,7 @@ button {
     text-decoration: underline;
 }
 
-/* Collaborator Choice */
+/* ESCOLHA DO COLABORADOR */
 .collab-choice {
     display: flex;
     gap: 14px;
@@ -1046,9 +1031,8 @@ button {
 }
 
 
-/* ============================================
-   RESPONSIVE
-   ============================================ */
+/* RESPONSIVIDADE */
+/* ================================== */
 
 @media (max-width: 768px) {
     .nav-links { display: none; }
