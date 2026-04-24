@@ -1,10 +1,11 @@
 /* =================================================
    MEXPLICA - script.js
+   - simplifiquei os comentarios tambem, qualquer coisa explico para os caras dps
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // GREETING - isso aqui funciona da seguinte forma: a variavel puxa o elemento greeting e nele ta considerado new Date().getHours, que fazem o trabalho de condicionar que tipo de texto vai aparecer dependendo do horario do dia
+    // GREETING - puxa o elemento greeting e condiciona o texto dependendo da hora do dia 
     const greetingEl = document.getElementById('greeting');
     if (greetingEl) {
         const hour = new Date().getHours();
@@ -28,29 +29,95 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // TOGGLE DO BOTAO ACESSIBILIDADE
+    // TOGGLE DO BOTAO AUMENTAR TEXTO  - 3 niveis progressivos
+    // nivel 0 = normal | nivel 1 = medio (+20%) | nivel 2 = grande (+40%)
+    // cada clique avança um nivel, no terceiro clique volta ao normal
+    // alem da fonte, aumenta tambem o line-height e o letter-spacing,
+    // que são os fatores que mais ajudam na leitura para baixa visao
+    //basicamente, dando funcionalidade ao botao de aumentar texto, mesmo que basica (ainda)
     const fontBtn = document.getElementById('toggleFontSize');
     if (fontBtn) {
-        let large = false;
+
+        document.body.style.transition = 'font-size 0.25s ease';
+
+        let nivel = 0;
+
+        const estados = [
+            {
+                label: 'AUMENTAR TEXTO',
+                fontSize: '',
+                lineHeight: '',
+                letterSpacing: '',
+                wordSpacing: ''
+            },
+            {
+                label: 'TEXTO MAIOR',
+                fontSize: '19px',
+                lineHeight: '1.85',
+                letterSpacing: '0.02em',
+                wordSpacing: '0.08em'
+            },
+            {
+                label: 'DIMINUIR TEXTO',
+                fontSize: '22px',
+                lineHeight: '2.05',
+                letterSpacing: '0.03em',
+                wordSpacing: '0.12em'
+            }
+        ];
+
+        const iconeAa = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><text x="1" y="18" font-size="16" fill="#ffffff" font-family="sans-serif" font-weight="900">Aa</text></svg>`;
+
+        function aplicarNivel(n) {
+            const estado = estados[n];
+
+            document.body.style.fontSize     = estado.fontSize;
+            document.body.style.lineHeight   = estado.lineHeight;
+            document.body.style.letterSpacing = estado.letterSpacing;
+            document.body.style.wordSpacing   = estado.wordSpacing;
+
+            // label mostra sempre o que o proximo clique vai fazer
+            const proximoNivel = (n + 1) % estados.length;
+            fontBtn.innerHTML = iconeAa + ' ' + estados[proximoNivel].label;
+
+            // indicador visual de ativo
+            if (n === 0) {
+                fontBtn.style.outline    = '';
+                fontBtn.style.boxShadow  = '';
+            } else {
+                fontBtn.style.outline    = '2px solid rgba(255,255,255,0.6)';
+                fontBtn.style.boxShadow  = '0 0 0 4px rgba(255,255,255,0.15)';
+            }
+        }
+
         fontBtn.addEventListener('click', () => {
-            large = !large;
-            document.body.classList.toggle('font-large', large);
-            const svg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><text x="1" y="18" font-size="16" fill="#ffffff" font-family="sans-serif" font-weight="900">Aa</text></svg>`;
-            fontBtn.innerHTML = svg + (large ? ' DIMINUIR TEXTO' : ' AUMENTAR TEXTO');
+            nivel = (nivel + 1) % estados.length;
+            aplicarNivel(nivel);
         });
+
+        // estado inicial - botao ja mostra o que o primeiro clique vai fazer
+        fontBtn.innerHTML = iconeAa + ' ' + estados[1].label;
     }
 
-    // provavelmente eu vou remover isso. caso eu tenha paciencia pra fazer DESSA FORMA, eu faço, senao, eu arrumo outro jeito
+    // TOGGLE DO BOTAO ACESSIBILIDADE
     const accBtn = document.getElementById('toggleAccessibility');
     if (accBtn) {
         let contrastOn = false;
         accBtn.addEventListener('click', () => {
             contrastOn = !contrastOn;
             document.body.classList.toggle('high-contrast', contrastOn);
+
+            if (contrastOn) {
+                accBtn.style.outline    = '2px solid rgba(255,255,255,0.6)';
+                accBtn.style.boxShadow  = '0 0 0 4px rgba(255,255,255,0.15)';
+            } else {
+                accBtn.style.outline    = '';
+                accBtn.style.boxShadow  = '';
+            }
         });
     }
 
-    // INPUT DA HOME - aqui tem um event listener que fica escutando o input de busca da home, e quando o usuario aperta enter, ele checa se tem algo escrito, e se tiver, ele da um scroll suave pra grade de topicos. isso é pra facilitar a vida do usuario, que as vezes pode nao perceber que tem uma grade de topicos ali embaixo, e pra incentivar ele a explorar os topicos mesmo que ele tenha uma duvida especifica em mente. se o input estiver vazio, ele nao faz nada, porque nao tem motivo pra levar o usuario pra grade se ele nao ta procurando nada. e o blur() é pra tirar o foco do input depois que o usuario aperta enter, pra evitar que o teclado continue aberto no mobile ou que o cursor fique piscando no input sem necessidade. basicamente, isso é uma pequena melhoria de usabilidade pra tornar a navegação mais fluida e intuitiva.
+    // INPUT DA HOME - scroll suave pro grid ao apertar enter
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.addEventListener('keydown', (e) => {
@@ -67,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // STEPS - aqui tem um monte de coisa relacionada aos steps, que é a parte de cadastro/login. basicamente, tem uma função showStep que recebe um elemento de step e mostra ele, escondendo os outros. ai tem os event listeners dos botoes de cada step, que fazem as validações basicas dos inputs e chamam a showStep com o proximo step se tudo estiver ok. tem tambem um link de informacao sobre o que é ser colaborador, que mostra um alert explicando isso. e por fim, tem uma parte de animacao de entrada usando IntersectionObserver, que faz os elementos aparecerem com uma transicao suave quando eles entram na viewport. isso tudo é pra criar uma experiencia de cadastro mais fluida e amigavel pro usuario, com feedbacks claros e animacoes agradaveis.
+    // STEPS - fluxo de cadastro/login
     const step1 = document.getElementById('step-1');
     const step2 = document.getElementById('step-2');
     const step3 = document.getElementById('step-3');
@@ -83,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // STEP 1 METODO DE CONTATO - aqui tem os botoes de escolher entre email e telefone, que adicionam ou removem a classe method-active pra indicar qual metodo ta selecionado, e também mudam o placeholder e o tipo do input principal dependendo da escolha. ai tem o botao de continuar, que faz as validacoes basicas do input: se ta vazio, se é um email valido (se o metodo for email) ou se é um numero valido (se o metodo for telefone). se tiver algum erro, ele mostra uma mensagem de erro e foca no input. se tudo estiver ok, ele limpa a mensagem de erro e mostra o step 2. tambem tem um event listener pro enter no input, que aciona o clique no botao de continuar, pra facilitar a vida do usuario.
+    // STEP 1 - METODO DE CONTATO
     const btnEmail  = document.getElementById('btnEmail');
     const btnPhone  = document.getElementById('btnPhone');
     const mainInput = document.getElementById('mainInput');
@@ -103,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // STEP 1 CONTINUAR - aqui tem o event listener do botao de continuar, que faz as validacoes basicas do input: se ta vazio, se é um email valido (se o metodo for email) ou se é um numero valido (se o metodo for telefone). se tiver algum erro, ele mostra uma mensagem de erro e foca no input. se tudo estiver ok, ele limpa a mensagem de erro e mostra o step 2. tambem tem um event listener pro enter no input, que aciona o clique no botao de continuar, pra facilitar a vida do usuario.
+    // STEP 1 - CONTINUAR
     const continueBtn = document.getElementById('continueBtn');
     const inputError  = document.getElementById('inputError');
 
@@ -147,13 +214,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // STEP 2 BACK - aqui tem o botao de voltar pro step 1, que simplesmente chama a funcao showStep com o step 1, pra mostrar ele e esconder os outros. isso permite que o usuario volte e mude o metodo de contato ou corrija o input se tiver algum erro.
+    // STEP 2 - VOLTAR
     const backToStep1 = document.getElementById('backToStep1');
     if (backToStep1) {
         backToStep1.addEventListener('click', () => showStep(step1));
     }
 
-    // STEP 2 CONTINUAR - aqui tem o event listener do botao de continuar, que faz as validacoes basicas dos inputs de cadastro: se ta vazio, se a idade é um numero valido entre 10 e 120, se a senha tem pelo menos 6 caracteres. se tiver algum erro, ele mostra uma mensagem de erro e foca no input correspondente. se tudo estiver ok, ele limpa a mensagem de erro e mostra o step 3. isso garante que o usuario preencha as informacoes basicas de forma correta antes de prosseguir pro passo seguinte.
+    // STEP 2 - CONTINUAR
     const registerBtn   = document.getElementById('registerBtn');
     const registerError = document.getElementById('registerError');
 
@@ -191,13 +258,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // STEP 3 - aqui tem os botoes de escolher se quer ser colaborador ou nao, que simplesmente mostram o step 4 quando clicados. isso é porque o step 4 tem as informacoes finais e o botao de concluir cadastro, entao independente da escolha do usuario, ele vai precisar passar por esse passo final pra terminar o processo de cadastro.
+    // STEP 3 - ESCOLHA DE COLABORADOR
     const yesCollab = document.getElementById('yesCollab');
     const noCollab  = document.getElementById('noCollab');
     if (yesCollab) yesCollab.addEventListener('click', () => showStep(step4));
     if (noCollab)  noCollab.addEventListener('click',  () => showStep(step4));
 
-    // STEP 3 INFO - aqui tem um link de informacao sobre o que é ser colaborador, que mostra um alert explicando isso. isso é pra esclarecer as duvidas do usuario sobre o papel do colaborador e incentivar ele a participar da comunidade, mostrando os beneficios e as formas de contribuir.
+    // STEP 3 - INFO COLABORADOR
     const collabInfoLink = document.querySelector('.collab-info-link');
     if (collabInfoLink) {
         collabInfoLink.addEventListener('click', (e) => {
@@ -206,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ANIMAÇÃO DE ENTRADA - aqui tem uma parte de animacao de entrada usando IntersectionObserver, que faz os elementos aparecerem com uma transicao suave quando eles entram na viewport. isso é pra criar uma experiencia visual mais agradável e dinâmica, dando um toque de interatividade e fluidez ao navegar pela pagina. os elementos começam com opacidade 0 e uma leve translação pra baixo, e quando entram na viewport, eles ganham opacidade 1 e voltam pra posição original, criando um efeito de fade-in e slide-up.
+    // ANIMAÇÃO DE ENTRADA
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
