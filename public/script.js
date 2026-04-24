@@ -44,21 +44,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const estados = [
             {
-                label: 'AUMENTAR TEXTO',
+                label: 'DIMINUIR TEXTO',
                 fontSize: '',
                 lineHeight: '',
                 letterSpacing: '',
                 wordSpacing: ''
             },
             {
-                label: 'TEXTO MAIOR',
+                label: 'AUMENTAR TEXTO',
                 fontSize: '19px',
                 lineHeight: '1.85',
                 letterSpacing: '0.02em',
                 wordSpacing: '0.08em'
             },
             {
-                label: 'DIMINUIR TEXTO',
+                label: 'TEXTO MAIOR',
                 fontSize: '22px',
                 lineHeight: '2.05',
                 letterSpacing: '0.03em',
