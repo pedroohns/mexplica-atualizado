@@ -1,11 +1,10 @@
 /* =================================================
    MEXPLICA - script.js
-   - simplifiquei os comentarios tambem, qualquer coisa explico para os caras dps
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // GREETING - puxa o elemento greeting e condiciona o texto dependendo da hora do dia 
+    // GREETING - condiciona o texto dependendo da hora do dia
     const greetingEl = document.getElementById('greeting');
     if (greetingEl) {
         const hour = new Date().getHours();
@@ -29,109 +28,219 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // TOGGLE DO BOTAO AUMENTAR TEXTO  - 3 niveis progressivos
-    // nivel 0 = normal | nivel 1 = medio (+20%) | nivel 2 = grande (+40%)
-    // cada clique avança um nivel, no terceiro clique volta ao normal
-    // alem da fonte, aumenta tambem o line-height e o letter-spacing,
-    // que são os fatores que mais ajudam na leitura para baixa visao
-    //basicamente, dando funcionalidade ao botao de aumentar texto, mesmo que basica (ainda)
+    // TOGGLE DO BOTAO AUMENTAR TEXTO - 3 niveis progressivos
     const fontBtn = document.getElementById('toggleFontSize');
     if (fontBtn) {
 
         document.body.style.transition = 'font-size 0.25s ease';
 
-        let nivel = 0;
+        let nivelFonte = 0;
 
-        const estados = [
-            {
-                label: 'DIMINUIR TEXTO',
-                fontSize: '',
-                lineHeight: '',
-                letterSpacing: '',
-                wordSpacing: ''
-            },
-            {
-                label: 'AUMENTAR TEXTO',
-                fontSize: '19px',
-                lineHeight: '1.85',
-                letterSpacing: '0.02em',
-                wordSpacing: '0.08em'
-            },
-            {
-                label: 'TEXTO MAIOR',
-                fontSize: '22px',
-                lineHeight: '2.05',
-                letterSpacing: '0.03em',
-                wordSpacing: '0.12em'
-            }
+        const estadosFonte = [
+            { label: 'DIMINUIR TEXTO', fontSize: '',      lineHeight: '',     letterSpacing: '',       wordSpacing: ''       },
+            { label: 'AUMENTAR TEXTO',    fontSize: '19px',  lineHeight: '1.85', letterSpacing: '0.02em', wordSpacing: '0.08em' },
+            { label: 'TEXTO MAIOR', fontSize: '22px',  lineHeight: '2.05', letterSpacing: '0.03em', wordSpacing: '0.12em' }
         ];
 
         const iconeAa = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><text x="1" y="18" font-size="16" fill="#ffffff" font-family="sans-serif" font-weight="900">Aa</text></svg>`;
 
-        function aplicarNivel(n) {
-            const estado = estados[n];
-
-            document.body.style.fontSize     = estado.fontSize;
-            document.body.style.lineHeight   = estado.lineHeight;
+        function aplicarNivelFonte(n) {
+            const estado = estadosFonte[n];
+            document.body.style.fontSize      = estado.fontSize;
+            document.body.style.lineHeight    = estado.lineHeight;
             document.body.style.letterSpacing = estado.letterSpacing;
             document.body.style.wordSpacing   = estado.wordSpacing;
 
-            // label mostra sempre o que o proximo clique vai fazer
-            const proximoNivel = (n + 1) % estados.length;
-            fontBtn.innerHTML = iconeAa + ' ' + estados[proximoNivel].label;
+            const proximo = (n + 1) % estadosFonte.length;
+            fontBtn.innerHTML = iconeAa + ' ' + estadosFonte[proximo].label;
 
-            // indicador visual de ativo
             if (n === 0) {
-                fontBtn.style.outline    = '';
-                fontBtn.style.boxShadow  = '';
+                fontBtn.style.outline   = '';
+                fontBtn.style.boxShadow = '';
             } else {
-                fontBtn.style.outline    = '2px solid rgba(255,255,255,0.6)';
-                fontBtn.style.boxShadow  = '0 0 0 4px rgba(255,255,255,0.15)';
+                fontBtn.style.outline   = '2px solid rgba(255,255,255,0.6)';
+                fontBtn.style.boxShadow = '0 0 0 4px rgba(255,255,255,0.15)';
             }
         }
 
         fontBtn.addEventListener('click', () => {
-            nivel = (nivel + 1) % estados.length;
-            aplicarNivel(nivel);
+            nivelFonte = (nivelFonte + 1) % estadosFonte.length;
+            aplicarNivelFonte(nivelFonte);
         });
 
-        // estado inicial - botao ja mostra o que o primeiro clique vai fazer
-        fontBtn.innerHTML = iconeAa + ' ' + estados[1].label;
+        fontBtn.innerHTML = iconeAa + ' ' + estadosFonte[1].label;
     }
 
-    // TOGGLE DO BOTAO ACESSIBILIDADE
+    // BOTAO ACESSIBILIDADE - abre menu dropdown com opcoes de tema
     const accBtn = document.getElementById('toggleAccessibility');
     if (accBtn) {
-        let contrastOn = false;
-        accBtn.addEventListener('click', () => {
-            contrastOn = !contrastOn;
-            document.body.classList.toggle('high-contrast', contrastOn);
 
-            if (contrastOn) {
-                accBtn.style.outline    = '2px solid rgba(255,255,255,0.6)';
-                accBtn.style.boxShadow  = '0 0 0 4px rgba(255,255,255,0.15)';
-            } else {
-                accBtn.style.outline    = '';
-                accBtn.style.boxShadow  = '';
-            }
+        // temas disponiveis
+        const temas = [
+            { label: 'Modo Claro',       classe: ''           },
+            { label: 'Modo Escuro',      classe: 'dark-blue'  },
+            { label: 'Modo Mais Escuro', classe: 'dark-black' }
+        ];
+
+        let temaAtivo = 0; // indice do tema atual, começa no claro
+
+        // cria o menu dropdown e bota no DOM logo apos o botao
+        const menu = document.createElement('div');
+        menu.id = 'acc-menu';
+        menu.style.cssText = `
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            min-width: 100%;
+            background: #ffffff;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            z-index: 200;
+        `;
+
+        // garante que o botao pai tenha position relative para o menu se ancorar nele
+        accBtn.style.position = 'relative';
+
+        // cria um item de menu para cada tema
+        temas.forEach((tema, i) => {
+            const item = document.createElement('button');
+            item.dataset.index = i;
+            item.style.cssText = `
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                width: 100%;
+                padding: 11px 16px;
+                background: none;
+                border: none;
+                font-family: 'Inter', sans-serif;
+                font-size: 13px;
+                font-weight: 600;
+                color: #111111;
+                cursor: pointer;
+                text-align: left;
+                transition: background 0.15s;
+                white-space: nowrap;
+            `;
+
+            // bolinha indicadora (acende quando o tema esta ativo)
+            const bolinha = document.createElement('span');
+            bolinha.dataset.bolinha = i;
+            bolinha.style.cssText = `
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                border: 2px solid #cccccc;
+                flex-shrink: 0;
+                transition: background 0.15s, border-color 0.15s;
+            `;
+
+            const texto = document.createElement('span');
+            texto.textContent = tema.label;
+
+            item.appendChild(bolinha);
+            item.appendChild(texto);
+
+            item.addEventListener('mouseenter', () => {
+                item.style.background = '#f5f5f5';
+            });
+            item.addEventListener('mouseleave', () => {
+                item.style.background = 'none';
+            });
+
+            // ao clicar no item, aplica o tema e fecha o menu
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                aplicarTema(i);
+                fecharMenu();
+            });
+
+            menu.appendChild(item);
         });
-    }
 
-    // INPUT DA HOME - scroll suave pro grid ao apertar enter
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                const query = searchInput.value.trim();
-                if (query) {
-                    const grid = document.getElementById('topicGrid');
-                    if (grid) {
-                        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        searchInput.blur();
-                    }
+        // insere o menu como filho do proprio botao para herdar o position:relative
+        accBtn.appendChild(menu);
+
+        // aplica o tema: remove todas as classes de dark e adiciona a correta
+        function aplicarTema(index) {
+            temaAtivo = index;
+
+            document.body.classList.remove('dark-blue', 'dark-black');
+            if (temas[index].classe) {
+                document.body.classList.add(temas[index].classe);
+            }
+
+            // salva
+            localStorage.setItem('temaAtivo', index);
+
+            // atualiza as bolinhas: acende a do tema ativo, apaga as outras
+            temas.forEach((_, i) => {
+                const bolinha = menu.querySelector(`[data-bolinha="${i}"]`);
+                if (!bolinha) return;
+                if (i === temaAtivo) {
+                    bolinha.style.background    = '#7B6EF6';
+                    bolinha.style.borderColor   = '#7B6EF6';
+                } else {
+                    bolinha.style.background    = 'transparent';
+                    bolinha.style.borderColor   = '#cccccc';
                 }
+            });
+        }
+
+        function abrirMenu() {
+            menu.style.display = 'block';
+            // adapta as cores do menu ao tema escuro atual
+            const isDark = document.body.classList.contains('dark-blue') || document.body.classList.contains('dark-black');
+            const isBlack = document.body.classList.contains('dark-black');
+            menu.style.background   = isBlack ? '#111111' : isDark ? '#1a2535' : '#ffffff';
+            menu.style.borderColor  = isBlack ? '#333333' : isDark ? '#2a3f52' : '#e0e0e0';
+
+            // ajusta cor do texto dos itens conforme o tema
+            menu.querySelectorAll('button').forEach(btn => {
+                btn.style.color = isDark || isBlack ? '#e8e8e8' : '#111111';
+                btn.addEventListener('mouseenter', () => {
+                    btn.style.background = isBlack ? '#222222' : isDark ? '#2a3f52' : '#f5f5f5';
+                }, { once: false });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.background = 'none';
+                });
+            });
+
+            // aplica o estado correto das bolinhas ao abrir
+            aplicarTema(temaAtivo);
+        }
+
+        function fecharMenu() {
+            menu.style.display = 'none';
+        }
+
+        // clique no botao: abre ou fecha o menu
+        accBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const estaAberto = menu.style.display === 'block';
+            if (estaAberto) {
+                fecharMenu();
+            } else {
+                abrirMenu();
             }
         });
+
+        // clique fora do menu: fecha
+        document.addEventListener('click', () => {
+            fecharMenu();
+        });
+
+        // estado inicial: bolinha do modo claro acesa
+        const temaSalvo = localStorage.getItem('temaAtivo');
+
+        if (temaSalvo !== null) {
+            aplicarTema(parseInt(temaSalvo));
+        } else {
+            aplicarTema(0);
+        }
     }
 
     // STEPS - fluxo de cadastro/login

@@ -1029,6 +1029,419 @@ button {
     box-shadow: 0 6px 18px rgba(224, 92, 92, 0.3);
 }
 
+/* ============================================
+   MODO ESCURO
+   dois niveis: dark-blue (tipo twitter antigamente) e dark-black (tipo OLED)
+   controlados por classes no body via JS
+   todas as transiçoes sao suaves para nao agredir os olhos
+   ============================================ */
+
+body {
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+
+/* ------------------------------------------
+   NIVEL 1: DARK-BLUE
+   fundo #0f1923, cards #1a2535
+   ------------------------------------------ */
+
+body.dark-blue {
+    background: #0f1923;
+    color: #e8eaf0;
+}
+
+body.dark-blue .header {
+    background: #0f1923;
+    border-bottom-color: #1e2d3d;
+}
+
+body.dark-blue .nav-links a {
+    color: #c8d0dc;
+}
+
+body.dark-blue .btn-acessar {
+    background: #1e2d3d;
+    color: #e8eaf0;
+}
+
+body.dark-blue .btn-acessar:hover {
+    background: #7B6EF6;
+}
+
+body.dark-blue .avatar-placeholder {
+    background: #1e2d3d;
+    border-color: #2a3f52;
+}
+
+body.dark-blue .nav-toggle span {
+    background: #e8eaf0;
+}
+
+body.dark-blue .nav-links.open {
+    background: #0f1923;
+    border-bottom-color: #1e2d3d;
+}
+
+body.dark-blue .hero-section {
+    background: #0f1923;
+}
+
+body.dark-blue .hero-title {
+    color: #e8eaf0;
+}
+
+body.dark-blue .search-box {
+    background: #1a2535;
+    border-color: #2a3f52;
+}
+
+body.dark-blue .search-input {
+    color: #e8eaf0;
+    background: transparent;
+}
+
+body.dark-blue .search-input::placeholder {
+    color: #5a7a96;
+}
+
+body.dark-blue .search-options {
+    border-top-color: #2a3f52;
+}
+
+body.dark-blue .search-opt-btn {
+    background: #1a2535;
+    border-color: #2a3f52;
+    color: #8eacc4;
+}
+
+body.dark-blue .search-opt-btn:hover {
+    border-color: #7B6EF6;
+    color: #a89ef8;
+}
+
+body.dark-blue .search-voice-btn {
+    color: #5a7a96;
+}
+
+body.dark-blue .most-searched-section {
+    background: #0d1720;
+}
+
+body.dark-blue .section-header h2 {
+    color: #e8eaf0;
+}
+
+body.dark-blue .section-subtitle {
+    color: #8eacc4;
+}
+
+body.dark-blue .legend-item {
+    background: #1a2535;
+    border-color: #2a3f52;
+    color: #c8d0dc;
+}
+
+body.dark-blue .filter-btn {
+    color: #c8d0dc;
+    border-color: #4a6a84;
+}
+
+body.dark-blue .filter-btn:hover {
+    background: #2a3f52;
+    color: #e8eaf0;
+}
+
+body.dark-blue .topic-green { background: #2d7a52; border: 1px solid #3d9e68; }
+body.dark-blue .topic-red   { background: #9e3535; border: 1px solid #c44444; }
+body.dark-blue .topic-blue  { background: #1a5a9e; border: 1px solid #2979C8; }
+
+body.dark-blue .collab-section {
+    background: #0f1923;
+}
+
+body.dark-blue .step-blue  { background: #1a4a7a; border: 1px solid #2979C8; }
+body.dark-blue .step-green { background: #1e5c38; border: 1px solid #3D9E68; }
+body.dark-blue .step-red   { background: #7a2020; border: 1px solid #E05C5C; }
+
+body.dark-blue .step-video {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+body.dark-blue .footer {
+    background: #0a1118;
+    border-top-color: #1e2d3d;
+}
+
+body.dark-blue .footer-col h4 {
+    color: #5a7a96;
+}
+
+body.dark-blue .footer-col a {
+    color: #8eacc4;
+}
+
+body.dark-blue .footer-col a:hover {
+    color: #e8eaf0;
+}
+
+body.dark-blue .footer-copy {
+    color: #3a5a74;
+    border-top-color: #1e2d3d;
+}
+
+/* lembrar de fazer ajustes aqui pois ainda nao esta funcionando corretamente */
+body.dark-blue .auth-page {
+    background: #0a1118;
+}
+
+body.dark-blue .auth-card {
+    background: #1a2535;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-blue .auth-title {
+    color: #e8eaf0;
+}
+
+body.dark-blue .auth-subtitle {
+    color: #8eacc4;
+}
+
+body.dark-blue .method-btn {
+    background: #1a2535;
+    border-color: #2a3f52;
+    color: #8eacc4;
+}
+
+body.dark-blue .method-btn:hover {
+    border-color: #7B6EF6;
+    color: #a89ef8;
+}
+
+body.dark-blue .auth-input {
+    background: #0f1923;
+    border-color: #2a3f52;
+    color: #e8eaf0;
+}
+
+body.dark-blue .auth-input::placeholder {
+    color: #5a7a96;
+}
+
+body.dark-blue .auth-input:focus {
+    border-color: #7B6EF6;
+}
+
+body.dark-blue .auth-help-link {
+    color: #8eacc4;
+}
+
+body.dark-blue .auth-help-link:hover {
+    color: #a89ef8;
+}
+
+
+/* ------------------------------------------
+   NIVEL 2: DARK-BLACK
+   fundo #000000, cards #111111
+   ------------------------------------------ */
+
+body.dark-black {
+    background: #000000;
+    color: #e8e8e8;
+}
+
+body.dark-black .header {
+    background: #000000;
+    border-bottom-color: #222222;
+}
+
+body.dark-black .nav-links a {
+    color: #cccccc;
+}
+
+body.dark-black .btn-acessar {
+    background: #1a1a1a;
+    color: #e8e8e8;
+}
+
+body.dark-black .btn-acessar:hover {
+    background: #7B6EF6;
+}
+
+body.dark-black .avatar-placeholder {
+    background: #1a1a1a;
+    border-color: #333333;
+}
+
+body.dark-black .nav-toggle span {
+    background: #e8e8e8;
+}
+
+body.dark-black .nav-links.open {
+    background: #000000;
+    border-bottom-color: #222222;
+}
+
+body.dark-black .hero-section {
+    background: #000000;
+}
+
+body.dark-black .hero-title {
+    color: #e8e8e8;
+}
+
+body.dark-black .search-box {
+    background: #111111;
+    border-color: #333333;
+}
+
+body.dark-black .search-input {
+    color: #e8e8e8;
+    background: transparent;
+}
+
+body.dark-black .search-input::placeholder {
+    color: #555555;
+}
+
+body.dark-black .search-options {
+    border-top-color: #222222;
+}
+
+body.dark-black .search-opt-btn {
+    background: #111111;
+    border-color: #333333;
+    color: #888888;
+}
+
+body.dark-black .search-opt-btn:hover {
+    border-color: #7B6EF6;
+    color: #a89ef8;
+}
+
+body.dark-black .search-voice-btn {
+    color: #555555;
+}
+
+body.dark-black .most-searched-section {
+    background: #0a0a0a;
+}
+
+body.dark-black .section-header h2 {
+    color: #e8e8e8;
+}
+
+body.dark-black .section-subtitle {
+    color: #888888;
+}
+
+body.dark-black .legend-item {
+    background: #111111;
+    border-color: #2a2a2a;
+    color: #cccccc;
+}
+
+body.dark-black .filter-btn {
+    color: #cccccc;
+    border-color: #444444;
+}
+
+body.dark-black .filter-btn:hover {
+    background: #222222;
+    color: #e8e8e8;
+}
+
+body.dark-black .topic-green { background: #1e4d2e; border: 1px solid #3D9E68; }
+body.dark-black .topic-red   { background: #4d1e1e; border: 1px solid #D94F4F; }
+body.dark-black .topic-blue  { background: #1e2e4d; border: 1px solid #2979C8; }
+
+body.dark-black .collab-section {
+    background: #000000;
+}
+
+body.dark-black .step-blue  { background: #0e2340; border: 1px solid #2979C8; }
+body.dark-black .step-green { background: #0e2e1a; border: 1px solid #3D9E68; }
+body.dark-black .step-red   { background: #2e0e0e; border: 1px solid #E05C5C; }
+
+body.dark-black .step-video {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+body.dark-black .footer {
+    background: #000000;
+    border-top-color: #222222;
+}
+
+body.dark-black .footer-col h4 {
+    color: #444444;
+}
+
+body.dark-black .footer-col a {
+    color: #777777;
+}
+
+body.dark-black .footer-col a:hover {
+    color: #e8e8e8;
+}
+
+body.dark-black .footer-copy {
+    color: #333333;
+    border-top-color: #1a1a1a;
+}
+
+/* lembrar disso */
+body.dark-black .auth-page {
+    background: #000000;
+}
+
+body.dark-black .auth-card {
+    background: #111111;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-black .auth-title {
+    color: #e8e8e8;
+}
+
+body.dark-black .auth-subtitle {
+    color: #888888;
+}
+
+body.dark-black .method-btn {
+    background: #111111;
+    border-color: #333333;
+    color: #888888;
+}
+
+body.dark-black .method-btn:hover {
+    border-color: #7B6EF6;
+    color: #a89ef8;
+}
+
+body.dark-black .auth-input {
+    background: #000000;
+    border-color: #333333;
+    color: #e8e8e8;
+}
+
+body.dark-black .auth-input::placeholder {
+    color: #555555;
+}
+
+body.dark-black .auth-input:focus {
+    border-color: #7B6EF6;
+}
+
+body.dark-black .auth-help-link {
+    color: #777777;
+}
+
+body.dark-black .auth-help-link:hover {
+    color: #a89ef8;
+}
+
 
 /* RESPONSIVIDADE */
 /* ================================== */
