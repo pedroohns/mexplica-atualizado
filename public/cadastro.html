@@ -4,11 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MEXPLICA - Bem-vindo</title>
+    <script>
+        (function() {
+            var classes = ['', 'dark-blue', 'dark-black'];
+            var salvo = localStorage.getItem('mexplica-tema');
+            if (salvo !== null) {
+                var classe = classes[parseInt(salvo)];
+                if (classe) document.documentElement.setAttribute('data-tema', classe);
+            }
+        })();
+    </script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="auth-page" id="authBody">
+<script>
+    (function() {
+        var classes = ['', 'dark-blue', 'dark-black'];
+        var salvo = localStorage.getItem('mexplica-tema');
+        if (salvo !== null) {
+            var classe = classes[parseInt(salvo)];
+            if (classe) document.body.classList.add(classe);
+        }
+    })();
+</script>
 
-    <!-- HEADER -->
     <header class="header">
         <nav class="nav container">
             <a href="index.html" class="nav-logo">

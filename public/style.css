@@ -1190,7 +1190,6 @@ body.dark-blue .footer-copy {
     border-top-color: #1e2d3d;
 }
 
-/* lembrar de fazer ajustes aqui pois ainda nao esta funcionando corretamente */
 body.dark-blue .auth-page {
     background: #0a1118;
 }
@@ -1442,6 +1441,9 @@ body.dark-black .auth-help-link:hover {
     color: #a89ef8;
 }
 
+/* sincroniza dark mode aplicado no <html> com o body, é baiscamente um anti-flash pra tela nao piscar em branco antes de entrar no tema */
+html[data-tema="dark-blue"]  body.auth-page { background: #0a1118; }
+html[data-tema="dark-black"] body.auth-page { background: #000000; }
 
 /* RESPONSIVIDADE */
 /* ================================== */

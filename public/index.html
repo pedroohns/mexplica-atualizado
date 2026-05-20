@@ -8,6 +8,16 @@
     <link rel="shortcut icon" href="icons/favicon.ico" type="image/x-icon">
 </head>
 <body>
+<script>
+    (function() {
+        var classes = ['', 'dark-blue', 'dark-black'];
+        var salvo = localStorage.getItem('mexplica-tema');
+        if (salvo !== null) {
+            var classe = classes[parseInt(salvo)];
+            if (classe) document.body.classList.add(classe);
+        }
+    })();
+</script>
 
     <header class="header">
         <nav class="nav container">

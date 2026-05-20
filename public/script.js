@@ -1,7 +1,3 @@
-/* =================================================
-   MEXPLICA - script.js
-   ================================================ */
-
 document.addEventListener('DOMContentLoaded', () => {
 
     // GREETING - condiciona o texto dependendo da hora do dia
@@ -37,9 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
         let nivelFonte = 0;
 
         const estadosFonte = [
-            { label: 'DIMINUIR TEXTO', fontSize: '',      lineHeight: '',     letterSpacing: '',       wordSpacing: ''       },
-            { label: 'AUMENTAR TEXTO',    fontSize: '19px',  lineHeight: '1.85', letterSpacing: '0.02em', wordSpacing: '0.08em' },
-            { label: 'TEXTO MAIOR', fontSize: '22px',  lineHeight: '2.05', letterSpacing: '0.03em', wordSpacing: '0.12em' }
+            { label: 'DIMINUIR TEXTO', fontSize: '',      lineHeight: '',      letterSpacing: '',       wordSpacing: ''       },
+            { label: 'AUMENTAR TEXTO',    fontSize: '19px',  lineHeight: '1.85',  letterSpacing: '0.02em', wordSpacing: '0.08em' },
+            { label: 'TEXTO MAIOR', fontSize: '22px',  lineHeight: '2.05',  letterSpacing: '0.03em', wordSpacing: '0.12em' }
         ];
 
         const iconeAa = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><text x="1" y="18" font-size="16" fill="#ffffff" font-family="sans-serif" font-weight="900">Aa</text></svg>`;
@@ -54,13 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const proximo = (n + 1) % estadosFonte.length;
             fontBtn.innerHTML = iconeAa + ' ' + estadosFonte[proximo].label;
 
-            if (n === 0) {
-                fontBtn.style.outline   = '';
-                fontBtn.style.boxShadow = '';
-            } else {
-                fontBtn.style.outline   = '2px solid rgba(255,255,255,0.6)';
-                fontBtn.style.boxShadow = '0 0 0 4px rgba(255,255,255,0.15)';
-            }
+            fontBtn.style.outline   = n === 0 ? '' : '2px solid rgba(255,255,255,0.6)';
+            fontBtn.style.boxShadow = n === 0 ? '' : '0 0 0 4px rgba(255,255,255,0.15)';
         }
 
         fontBtn.addEventListener('click', () => {
@@ -68,23 +59,24 @@ document.addEventListener('DOMContentLoaded', () => {
             aplicarNivelFonte(nivelFonte);
         });
 
-        fontBtn.innerHTML = iconeAa + ' ' + estadosFonte[1].label;
+        aplicarNivelFonte(0);
     }
 
-    // BOTAO ACESSIBILIDADE - abre menu dropdown com opcoes de tema
+    // BOTAO ACESSIBILIDADE - dropdown de temas
     const accBtn = document.getElementById('toggleAccessibility');
     if (accBtn) {
 
-        // temas disponiveis
         const temas = [
             { label: 'Modo Claro',       classe: ''           },
             { label: 'Modo Escuro',      classe: 'dark-blue'  },
             { label: 'Modo Mais Escuro', classe: 'dark-black' }
         ];
 
-        let temaAtivo = 0; // indice do tema atual, começa no claro
+        // tenta recuperar tema salvo no localstorage, se tiver. se nao tiver, começa no 0 (modo claro)
+        const temaSalvo = localStorage.getItem('mexplica-tema');
+        let temaAtivo = temaSalvo !== null ? parseInt(temaSalvo) : 0;
 
-        // cria o menu dropdown e bota no DOM logo apos o botao
+        // cria o menu dropdown
         const menu = document.createElement('div');
         menu.id = 'acc-menu';
         menu.style.cssText = `
@@ -92,22 +84,19 @@ document.addEventListener('DOMContentLoaded', () => {
             position: absolute;
             top: calc(100% + 8px);
             left: 0;
-            min-width: 100%;
-            background: #ffffff;
-            border: 1.5px solid #e0e0e0;
+            min-width: 180px;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
             z-index: 200;
+            border: 1.5px solid #e0e0e0;
+            background: #ffffff;
         `;
 
-        // garante que o botao pai tenha position relative para o menu se ancorar nele
         accBtn.style.position = 'relative';
 
-        // cria um item de menu para cada tema
         temas.forEach((tema, i) => {
             const item = document.createElement('button');
-            item.dataset.index = i;
             item.style.cssText = `
                 display: flex;
                 align-items: center;
@@ -119,14 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 font-family: 'Inter', sans-serif;
                 font-size: 13px;
                 font-weight: 600;
-                color: #111111;
                 cursor: pointer;
                 text-align: left;
-                transition: background 0.15s;
                 white-space: nowrap;
             `;
 
-            // bolinha indicadora (acende quando o tema esta ativo)
             const bolinha = document.createElement('span');
             bolinha.dataset.bolinha = i;
             bolinha.style.cssText = `
@@ -144,14 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
             item.appendChild(bolinha);
             item.appendChild(texto);
 
-            item.addEventListener('mouseenter', () => {
-                item.style.background = '#f5f5f5';
-            });
-            item.addEventListener('mouseleave', () => {
-                item.style.background = 'none';
-            });
-
-            // ao clicar no item, aplica o tema e fecha o menu
             item.addEventListener('click', (e) => {
                 e.stopPropagation();
                 aplicarTema(i);
@@ -161,89 +139,71 @@ document.addEventListener('DOMContentLoaded', () => {
             menu.appendChild(item);
         });
 
-        // insere o menu como filho do proprio botao para herdar o position:relative
         accBtn.appendChild(menu);
 
-        // aplica o tema: remove todas as classes de dark e adiciona a correta
         function aplicarTema(index) {
             temaAtivo = index;
 
+            // aplica classe no body
             document.body.classList.remove('dark-blue', 'dark-black');
             if (temas[index].classe) {
                 document.body.classList.add(temas[index].classe);
             }
 
-            // salva
-            localStorage.setItem('temaAtivo', index);
+            // salva escolha em localstorage
+            localStorage.setItem('mexplica-tema', index);
 
-            // atualiza as bolinhas: acende a do tema ativo, apaga as outras
+            // atualiza bolinhas
+            atualizarBolinhas();
+        }
+
+        function atualizarBolinhas() {
             temas.forEach((_, i) => {
                 const bolinha = menu.querySelector(`[data-bolinha="${i}"]`);
                 if (!bolinha) return;
-                if (i === temaAtivo) {
-                    bolinha.style.background    = '#7B6EF6';
-                    bolinha.style.borderColor   = '#7B6EF6';
-                } else {
-                    bolinha.style.background    = 'transparent';
-                    bolinha.style.borderColor   = '#cccccc';
-                }
+                bolinha.style.background  = i === temaAtivo ? '#7B6EF6' : 'transparent';
+                bolinha.style.borderColor = i === temaAtivo ? '#7B6EF6' : '#cccccc';
+            });
+        }
+
+        function atualizarEstiloMenu() {
+            const isBlack = document.body.classList.contains('dark-black');
+            const isDark  = document.body.classList.contains('dark-blue');
+
+            menu.style.background  = isBlack ? '#111111' : isDark ? '#1a2535' : '#ffffff';
+            menu.style.borderColor = isBlack ? '#333333' : isDark ? '#2a3f52' : '#e0e0e0';
+
+            menu.querySelectorAll('button').forEach(btn => {
+                btn.style.color = (isDark || isBlack) ? '#e8e8e8' : '#111111';
+
+                const hoverBg = isBlack ? '#222222' : isDark ? '#2a3f52' : '#f5f5f5';
+                btn.onmouseenter = () => { btn.style.background = hoverBg; };
+                btn.onmouseleave = () => { btn.style.background = 'none'; };
             });
         }
 
         function abrirMenu() {
+            atualizarEstiloMenu();
+            atualizarBolinhas();
             menu.style.display = 'block';
-            // adapta as cores do menu ao tema escuro atual
-            const isDark = document.body.classList.contains('dark-blue') || document.body.classList.contains('dark-black');
-            const isBlack = document.body.classList.contains('dark-black');
-            menu.style.background   = isBlack ? '#111111' : isDark ? '#1a2535' : '#ffffff';
-            menu.style.borderColor  = isBlack ? '#333333' : isDark ? '#2a3f52' : '#e0e0e0';
-
-            // ajusta cor do texto dos itens conforme o tema
-            menu.querySelectorAll('button').forEach(btn => {
-                btn.style.color = isDark || isBlack ? '#e8e8e8' : '#111111';
-                btn.addEventListener('mouseenter', () => {
-                    btn.style.background = isBlack ? '#222222' : isDark ? '#2a3f52' : '#f5f5f5';
-                }, { once: false });
-                btn.addEventListener('mouseleave', () => {
-                    btn.style.background = 'none';
-                });
-            });
-
-            // aplica o estado correto das bolinhas ao abrir
-            aplicarTema(temaAtivo);
         }
 
         function fecharMenu() {
             menu.style.display = 'none';
         }
 
-        // clique no botao: abre ou fecha o menu
         accBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            const estaAberto = menu.style.display === 'block';
-            if (estaAberto) {
-                fecharMenu();
-            } else {
-                abrirMenu();
-            }
+            menu.style.display === 'block' ? fecharMenu() : abrirMenu();
         });
 
-        // clique fora do menu: fecha
-        document.addEventListener('click', () => {
-            fecharMenu();
-        });
+        document.addEventListener('click', () => fecharMenu());
 
-        // estado inicial: bolinha do modo claro acesa
-        const temaSalvo = localStorage.getItem('temaAtivo');
-
-        if (temaSalvo !== null) {
-            aplicarTema(parseInt(temaSalvo));
-        } else {
-            aplicarTema(0);
-        }
+        // sincroniza o estado visual do botao e bolinhas com o tema ja aplicado pelo <head>
+        aplicarTema(temaAtivo);
     }
 
-    // STEPS - fluxo de cadastro/login
+    // STEPS - fluxo de cadastro
     const step1 = document.getElementById('step-1');
     const step2 = document.getElementById('step-2');
     const step3 = document.getElementById('step-3');
@@ -373,16 +333,157 @@ document.addEventListener('DOMContentLoaded', () => {
     if (yesCollab) yesCollab.addEventListener('click', () => showStep(step4));
     if (noCollab)  noCollab.addEventListener('click',  () => showStep(step4));
 
-    // STEP 3 - INFO COLABORADOR
+// STEP 3 - INFO COLABORADOR
     const collabInfoLink = document.querySelector('.collab-info-link');
     if (collabInfoLink) {
         collabInfoLink.addEventListener('click', (e) => {
             e.preventDefault();
-            alert('Colaboradores são voluntários que ajudam usuários com dúvidas tecnológicas. Você pode responder perguntas, enviar vídeos explicativos, fazer chamadas e subir de nível conforme contribui com a comunidade!');
+            abrirModalColaborador();
         });
     }
 
-    // ANIMAÇÃO DE ENTRADA
+    function abrirModalColaborador() {
+
+        // criaçao do overlay
+        const overlay = document.createElement('div');
+        overlay.id = 'modal-overlay';
+
+        // criaçao do modal
+        const modal = document.createElement('div');
+        modal.id = 'modal-colaborador';
+
+        // tema
+        const isBlack = document.body.classList.contains('dark-black');
+        const isDark  = document.body.classList.contains('dark-blue');
+
+        overlay.style.cssText = `
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        `;
+
+        modal.style.cssText = `
+            background: ${isBlack ? '#111111' : isDark ? '#1a2535' : '#ffffff'};
+            border: 1.5px solid ${isBlack ? '#333333' : isDark ? '#2a3f52' : '#e8e8e8'};
+            border-radius: 20px;
+            padding: 36px 32px 28px;
+            max-width: 440px;
+            width: 100%;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            transform: translateY(18px) scale(0.97);
+            transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+            opacity: 0;
+        `;
+
+        const logo = document.createElement('img');
+        logo.src = 'icons/logo-mexplica.png';
+        logo.alt = 'MEXPLICA';
+        logo.style.cssText = `
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+        `;
+
+        const titulo = document.createElement('h2');
+        titulo.textContent = 'O que é ser um colaborador?';
+        titulo.style.cssText = `
+            font-family: 'Nimbus Sans', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: ${isBlack || isDark ? '#e8e8e8' : '#111111'};
+            text-align: center;
+            line-height: 1.3;
+        `;
+
+        const texto = document.createElement('p');
+        texto.textContent = 'Colaboradores são voluntários que ajudam usuários com dúvidas tecnológicas. Você pode responder perguntas, enviar vídeos explicativos, fazer chamadas e subir de nível conforme contribui com a comunidade!';
+        texto.style.cssText = `
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: ${isBlack || isDark ? '#aaaaaa' : '#555555'};
+            text-align: center;
+            line-height: 1.65;
+        `;
+
+        const btnFechar = document.createElement('button');
+        btnFechar.textContent = 'Entendi!';
+        btnFechar.style.cssText = `
+            margin-top: 4px;
+            padding: 12px 32px;
+            background: #7B6EF6;
+            color: #ffffff;
+            border: none;
+            border-radius: 999px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.18s, transform 0.18s;
+        `;
+
+        btnFechar.addEventListener('mouseenter', () => {
+            btnFechar.style.background = '#5A50C8';
+            btnFechar.style.transform  = 'translateY(-1px)';
+        });
+        btnFechar.addEventListener('mouseleave', () => {
+            btnFechar.style.background = '#7B6EF6';
+            btnFechar.style.transform  = 'translateY(0)';
+        });
+
+        function fecharModal() {
+            overlay.style.opacity = '0';
+            modal.style.opacity   = '0';
+            modal.style.transform = 'translateY(18px) scale(0.97)';
+            setTimeout(() => {
+                if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+            }, 280);
+        }
+
+        btnFechar.addEventListener('click', fecharModal);
+
+        // clique fora modal fecha
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) fecharModal();
+        });
+
+        // ESC fecha
+        function onEsc(e) {
+            if (e.key === 'Escape') {
+                fecharModal();
+                document.removeEventListener('keydown', onEsc);
+            }
+        }
+        document.addEventListener('keydown', onEsc);
+
+        // aparece
+        modal.appendChild(logo);
+        modal.appendChild(titulo);
+        modal.appendChild(texto);
+        modal.appendChild(btnFechar);
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                overlay.style.opacity = '1';
+                modal.style.opacity   = '1';
+                modal.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    }
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
