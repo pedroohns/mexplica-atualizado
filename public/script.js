@@ -473,23 +473,6 @@ document.addEventListener('DOMContentLoaded', () => {
         aplicarTema(temaAtivo);
     }
 
-    // INPUT DA HOME
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                const query = searchInput.value.trim();
-                if (query) {
-                    const grid = document.getElementById('topicGrid');
-                    if (grid) {
-                        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        searchInput.blur();
-                    }
-                }
-            }
-        });
-    }
-
     // STEPS
     const step1 = document.getElementById('step-1');
     const step2 = document.getElementById('step-2');
