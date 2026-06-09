@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // tamanhos de cada nivel
         const niveis = [
-            { label: 'PEQUENO', fontSize: '11px', lineHeight: '1.45', letterSpacing: '-0.1em',        wordSpacing: '-0.1em'       },
+            { label: 'PEQUENO', fontSize: '11px', lineHeight: '1.45', letterSpacing: '-0.1em',  wordSpacing: '-0.1em' },
             { label: 'MÉDIO',   fontSize: '16px', lineHeight: '1.6',  letterSpacing: '',        wordSpacing: ''       },
             { label: 'GRANDE',  fontSize: '22px', lineHeight: '1.95', letterSpacing: '0.02em',  wordSpacing: '0.1em'  }
         ];
@@ -223,17 +223,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function aplicarNivel(n) {
-            nivelAtual    = n;
-            slider.value  = n;
+        nivelAtual = n;
+        slider.value = n;
 
-            const nivel = niveis[n];
-            document.body.style.fontSize      = nivel.fontSize;
-            document.body.style.lineHeight    = nivel.lineHeight;
-            document.body.style.letterSpacing = nivel.letterSpacing;
-            document.body.style.wordSpacing   = nivel.wordSpacing;
+         const escalas = [0.85, 1, 1.25];
 
-            atualizarGradienteSlider(n);
-            atualizarCoresMenu();
+            document.documentElement.style.setProperty(
+             '--font-scale',
+              escalas[n]
+             );
+
+        document.querySelectorAll('*').forEach(el => {
+
+        if (!el.dataset.originalFontSize) {
+            const size = parseFloat(
+                window.getComputedStyle(el).fontSize
+            );
+
+            if (!isNaN(size)) {
+                el.dataset.originalFontSize = size;
+            }
+        }
+
+        const original = parseFloat(
+            el.dataset.originalFontSize
+        );
+
+        if (!isNaN(original)) {
+            el.style.fontSize =
+                (original * escalas[n]) + 'px';
+        }
+        });
+
+        atualizarGradienteSlider(n);
+        atualizarCoresMenu();
         }
 
         function abrirMenuFonte() {
