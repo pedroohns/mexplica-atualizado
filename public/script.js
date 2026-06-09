@@ -236,19 +236,34 @@ document.addEventListener('DOMContentLoaded', () => {
             atualizarCoresMenu();
         }
 
+        function abrirMenuFonte() {
+            atualizarCoresMenu();
+
+            const rect = fontBtn.getBoundingClientRect();
+            menuFonte.style.position = 'fixed';
+            menuFonte.style.top      = (rect.bottom + 8) + 'px';
+            menuFonte.style.left     = rect.left + 'px';
+            menuFonte.style.width    = rect.width + 'px';
+
+            document.body.appendChild(menuFonte);
+            menuFonte.style.display = 'block';
+        }
+
+        function fecharMenuFonte() {
+            menuFonte.style.display = 'none';
+            if (menuFonte.parentNode !== fontBtn) {
+                fontBtn.appendChild(menuFonte);
+            }
+        }
+
         fontBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             const aberto = menuFonte.style.display === 'block';
             fecharTodosMenus();
-            if (!aberto) {
-                atualizarCoresMenu();
-                menuFonte.style.display = 'block';
-            }
+            if (!aberto) abrirMenuFonte();
         });
 
-        document.addEventListener('click', () => {
-            menuFonte.style.display = 'none';
-        });
+        document.addEventListener('click', () => fecharMenuFonte());
 
         // estado inicial
         aplicarNivel(1);
@@ -361,7 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
             item.addEventListener('click', (e) => {
                 e.stopPropagation();
                 aplicarTema(i);
-                menuAcc.style.display = 'none';
+                fecharMenuAcc();
             });
 
             menuAcc.appendChild(item);
@@ -378,18 +393,10 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('mexplica-tema', index);
 
             atualizarEstiloMenuAcc();
-
+            
             // atualiza tambem o menu de fonte para refletir o novo tema
             if (menuFonteEl) {
-                const inativo = document.body.classList.contains('dark-blue') ? '#555555' : '#bbbbbb';
-                const fundo   = document.body.classList.contains('dark-blue') ? '#1a2535' : '#ffffff';
-                const borda   = document.body.classList.contains('dark-blue') ? '#2a3f52' : '#e8e8e8';
-                menuFonteEl.style.background  = fundo;
-                menuFonteEl.style.borderColor = borda;
-                menuFonteEl.querySelectorAll('[data-aa], [data-label]').forEach(el => {
-                    const i = parseInt(el.dataset.aa ?? el.dataset.label);
-                    // nivelAtual é acessivel pelo closure do bloco de fonte acima
-                });
+                atualizarCoresMenu();
             }
         }
 
@@ -400,6 +407,7 @@ document.addEventListener('DOMContentLoaded', () => {
             menuAcc.style.borderColor = isDark ? '#2a3f52' : '#e8e8e8';
 
             menuAcc.querySelectorAll('button').forEach((btn, i) => {
+                btn.style.background = 'none';
                 const spans = btn.querySelectorAll('span');
                 btn.style.borderBottomColor = isDark ? '#2a3f52' : '#f0f0f0';
                 if (spans[0]) spans[0].style.color = isDark ? '#e8e8e8' : '#111111';
@@ -407,19 +415,37 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        function abrirMenuAcc() {
+            atualizarEstiloMenuAcc();
+
+            // posiciona o menu relativo ao botao, anexado ao body
+            // isso evita o problema de z-index no mobile
+            const rect = accBtn.getBoundingClientRect();
+            menuAcc.style.position = 'fixed';
+            menuAcc.style.top      = (rect.bottom + 8) + 'px';
+            menuAcc.style.left     = rect.left + 'px';
+            menuAcc.style.width    = rect.width + 'px';
+
+            document.body.appendChild(menuAcc);
+            menuAcc.style.display = 'block';
+        }
+
+        function fecharMenuAcc() {
+            menuAcc.style.display = 'none';
+            // devolve o menu pro botao pai para nao perder a referencia
+            if (menuAcc.parentNode !== accBtn) {
+                accBtn.appendChild(menuAcc);
+            }
+        }
+
         accBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             const aberto = menuAcc.style.display === 'block';
             fecharTodosMenus();
-            if (!aberto) {
-                atualizarEstiloMenuAcc();
-                menuAcc.style.display = 'block';
-            }
+            if (!aberto) abrirMenuAcc();
         });
 
-        document.addEventListener('click', () => {
-            menuAcc.style.display = 'none';
-        });
+        document.addEventListener('click', () => fecharMenuAcc());
 
         aplicarTema(temaAtivo);
     }
