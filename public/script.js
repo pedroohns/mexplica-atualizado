@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // GREETING - condiciona o texto dependendo da hora do dia
+    // GREETING
     const greetingEl = document.getElementById('greeting');
     if (greetingEl) {
         const hour = new Date().getHours();
@@ -24,73 +24,279 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // TOGGLE DO BOTAO AUMENTAR TEXTO - 3 niveis progressivos
+    // referencias dos dois menus para fechar um quando o outro abre (coloquei isso apenas para evitar um bug que tava acontecendo quando vc deixava os dois menus abertos e trocava entre modo claro/escuro, DA PRA RESOLVER ESSE PROBLEMA, mas como é uma parada basica, entao optei pela soluçao mais preguiçosa)
+    let menuFonteEl = null;
+    let menuAccEl   = null;
+
+    function fecharTodosMenus() {
+        if (menuFonteEl) menuFonteEl.style.display = 'none';
+        if (menuAccEl)   menuAccEl.style.display   = 'none';
+    }
+
+    // ================================================
+    // BOTAO AUMENTAR TEXTO - dropdown com slider arrastavel
+    // ================================================
     const fontBtn = document.getElementById('toggleFontSize');
     if (fontBtn) {
 
-        document.body.style.transition = 'font-size 0.25s ease';
-
-        let nivelFonte = 0;
-
-        const estadosFonte = [
-            { label: 'DIMINUIR TEXTO', fontSize: '',      lineHeight: '',      letterSpacing: '',       wordSpacing: ''       },
-            { label: 'AUMENTAR TEXTO',    fontSize: '19px',  lineHeight: '1.85',  letterSpacing: '0.02em', wordSpacing: '0.08em' },
-            { label: 'TEXTO MAIOR', fontSize: '22px',  lineHeight: '2.05',  letterSpacing: '0.03em', wordSpacing: '0.12em' }
+        // tamanhos de cada nivel
+        const niveis = [
+            { label: 'PEQUENO', fontSize: '11px', lineHeight: '1.45', letterSpacing: '-0.1em',        wordSpacing: '-0.1em'       },
+            { label: 'MÉDIO',   fontSize: '16px', lineHeight: '1.6',  letterSpacing: '',        wordSpacing: ''       },
+            { label: 'GRANDE',  fontSize: '22px', lineHeight: '1.95', letterSpacing: '0.02em',  wordSpacing: '0.1em'  }
         ];
 
-        const iconeAa = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><text x="1" y="18" font-size="16" fill="#ffffff" font-family="sans-serif" font-weight="900">Aa</text></svg>`;
+        let nivelAtual = 1;
 
-        function aplicarNivelFonte(n) {
-            const estado = estadosFonte[n];
-            document.body.style.fontSize      = estado.fontSize;
-            document.body.style.lineHeight    = estado.lineHeight;
-            document.body.style.letterSpacing = estado.letterSpacing;
-            document.body.style.wordSpacing   = estado.wordSpacing;
+        const iconeAa   = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><text x="1" y="18" font-size="16" fill="#ffffff" font-family="sans-serif" font-weight="900">Aa</text></svg>`;
+        const setaAbaixo = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
-            const proximo = (n + 1) % estadosFonte.length;
-            fontBtn.innerHTML = iconeAa + ' ' + estadosFonte[proximo].label;
+        // container do menu
+        const menuFonte = document.createElement('div');
+        menuFonte.id = 'menu-fonte';
+        menuFonteEl = menuFonte;
+        menuFonte.style.cssText = `
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: 280px;
+            border-radius: 14px;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.13);
+            z-index: 200;
+            padding: 20px 20px 16px;
+            background: #ffffff;
+            border: 1.5px solid #e8e8e8;
+            box-sizing: border-box;
+        `;
 
-            fontBtn.style.outline   = n === 0 ? '' : '2px solid rgba(255,255,255,0.6)';
-            fontBtn.style.boxShadow = n === 0 ? '' : '0 0 0 4px rgba(255,255,255,0.15)';
-        }
+        // linha Aa com tamanhos crescentes
+        const linhaAa = document.createElement('div');
+        linhaAa.style.cssText = `
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 14px;
+            padding: 0 2px;
+        `;
 
-        fontBtn.addEventListener('click', () => {
-            nivelFonte = (nivelFonte + 1) % estadosFonte.length;
-            aplicarNivelFonte(nivelFonte);
+        const tamanhoAa = ['13px', '19px', '26px'];
+        niveis.forEach((_, i) => {
+            const aa = document.createElement('span');
+            aa.dataset.aa = i;
+            aa.textContent = 'Aa';
+            aa.style.cssText = `
+                font-family: 'Inter', sans-serif;
+                font-size: ${tamanhoAa[i]};
+                font-weight: 700;
+                color: ${i === nivelAtual ? '#7B6EF6' : '#bbbbbb'};
+                line-height: 1;
+                cursor: pointer;
+                transition: color 0.18s;
+                user-select: none;
+            `;
+            aa.addEventListener('click', () => aplicarNivel(i));
+            linhaAa.appendChild(aa);
         });
 
-        aplicarNivelFonte(0);
+        // slider nativo - arrastavel por padrao, estilizado via CSS inline + pseudo-elements no style.css
+        const sliderWrap = document.createElement('div');
+        sliderWrap.style.cssText = `
+            position: relative;
+            margin-bottom: 8px;
+        `;
+
+        const slider = document.createElement('input');
+        slider.type  = 'range';
+        slider.min   = '0';
+        slider.max   = '2';
+        slider.step  = '1';
+        slider.value = nivelAtual;
+        slider.id    = 'fonte-slider';
+        slider.style.cssText = `
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(to right, #7B6EF6 50%, #e0e0e0 50%);
+            outline: none;
+            cursor: pointer;
+            margin: 0;
+            display: block;
+        `;
+
+        // thumb do slider via style injetado (nao da pra fazer só com inline, tentei antes de criar o style e nao rolou, provavelmente por serem pseudo-elementos)
+        const sliderStyle = document.createElement('style');
+        sliderStyle.textContent = `
+            #fonte-slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: #7B6EF6;
+                cursor: grab;
+                border: 2px solid #ffffff;
+                box-shadow: 0 2px 6px rgba(123,110,246,0.4);
+                transition: transform 0.15s;
+            }
+            #fonte-slider::-webkit-slider-thumb:active {
+                cursor: grabbing;
+                transform: scale(1.2);
+            }
+            #fonte-slider::-moz-range-thumb {
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: #7B6EF6;
+                cursor: grab;
+                border: 2px solid #ffffff;
+                box-shadow: 0 2px 6px rgba(123,110,246,0.4);
+            }
+        `;
+        document.head.appendChild(sliderStyle);
+
+        slider.addEventListener('input', () => {
+            aplicarNivel(parseInt(slider.value));
+        });
+
+        sliderWrap.appendChild(slider);
+
+        // labels PEQUENO / MEDIO / GRANDE
+        const labelsWrap = document.createElement('div');
+        labelsWrap.style.cssText = `
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2px;
+        `;
+
+        niveis.forEach((nivel, i) => {
+            const lbl = document.createElement('span');
+            lbl.dataset.label = i;
+            lbl.textContent   = nivel.label;
+            lbl.style.cssText = `
+                font-family: 'Inter', sans-serif;
+                font-size: 10px;
+                font-weight: 700;
+                letter-spacing: 0.05em;
+                color: ${i === nivelAtual ? '#7B6EF6' : '#bbbbbb'};
+                cursor: pointer;
+                transition: color 0.18s;
+                user-select: none;
+            `;
+            lbl.addEventListener('click', () => aplicarNivel(i));
+            labelsWrap.appendChild(lbl);
+        });
+
+        menuFonte.appendChild(linhaAa);
+        menuFonte.appendChild(sliderWrap);
+        menuFonte.appendChild(labelsWrap);
+
+        fontBtn.style.position = 'relative';
+        fontBtn.appendChild(menuFonte);
+
+        function atualizarGradienteSlider(n) {
+            const pct = ['0%', '50%', '100%'];
+            slider.style.background = `linear-gradient(to right, #7B6EF6 ${pct[n]}, #e0e0e0 ${pct[n]})`;
+        }
+
+        function atualizarCoresMenu() {
+            const isBlack = document.body.classList.contains('dark-black');
+            const isDark  = document.body.classList.contains('dark-blue');
+            const inativo = (isBlack || isDark) ? '#555555' : '#bbbbbb';
+
+            menuFonte.style.background  = isBlack ? '#111111' : isDark ? '#1a2535' : '#ffffff';
+            menuFonte.style.borderColor = isBlack ? '#333333' : isDark ? '#2a3f52' : '#e8e8e8';
+
+            // trilho do slider
+            const trilhoCor = (isBlack || isDark) ? '#3a3a4a' : '#e0e0e0';
+            const pct = ['0%', '50%', '100%'];
+            slider.style.background = `linear-gradient(to right, #7B6EF6 ${pct[nivelAtual]}, ${trilhoCor} ${pct[nivelAtual]})`;
+
+            linhaAa.querySelectorAll('[data-aa]').forEach(el => {
+                el.style.color = parseInt(el.dataset.aa) === nivelAtual ? '#7B6EF6' : inativo;
+            });
+            labelsWrap.querySelectorAll('[data-label]').forEach(el => {
+                el.style.color = parseInt(el.dataset.label) === nivelAtual ? '#7B6EF6' : inativo;
+            });
+        }
+
+        function aplicarNivel(n) {
+            nivelAtual    = n;
+            slider.value  = n;
+
+            const nivel = niveis[n];
+            document.body.style.fontSize      = nivel.fontSize;
+            document.body.style.lineHeight    = nivel.lineHeight;
+            document.body.style.letterSpacing = nivel.letterSpacing;
+            document.body.style.wordSpacing   = nivel.wordSpacing;
+
+            atualizarGradienteSlider(n);
+            atualizarCoresMenu();
+        }
+
+        fontBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const aberto = menuFonte.style.display === 'block';
+            fecharTodosMenus();
+            if (!aberto) {
+                atualizarCoresMenu();
+                menuFonte.style.display = 'block';
+            }
+        });
+
+        document.addEventListener('click', () => {
+            menuFonte.style.display = 'none';
+        });
+
+        // estado inicial
+        aplicarNivel(1);
+        // reescreve o innerHTML do botao e reanexa o menu (que foi removido pelo innerHTML)
+        fontBtn.innerHTML = iconeAa + ' AUMENTAR TEXTO ' + setaAbaixo;
+        fontBtn.appendChild(menuFonte);
     }
 
-    // BOTAO ACESSIBILIDADE - dropdown de temas
+    // ================================================
+    // BOTAO ACESSIBILIDADE - dropdown modo claro/escuro (removido modo mais escuro coloquei os icones bonitinhos e descriçoes elaboradas)
+    // ================================================
     const accBtn = document.getElementById('toggleAccessibility');
     if (accBtn) {
 
         const temas = [
-            { label: 'Modo Claro',       classe: ''           },
-            { label: 'Modo Escuro',      classe: 'dark-blue'  },
-            { label: 'Modo Mais Escuro', classe: 'dark-black' }
+            {
+                label:  'Modo claro',
+                sub:    'Telas claras para melhor visibilidade em locais iluminados',
+                classe: '',
+                icone:  'icons/solzinho.png'
+            },
+            {
+                label:  'Modo escuro',
+                sub:    'Telas escuras para melhor visibilidade em ambientes com pouca luz',
+                classe: 'dark-blue',
+                icone:  'icons/luazinha.png'
+            }
         ];
 
-        // tenta recuperar tema salvo no localstorage, se tiver. se nao tiver, começa no 0 (modo claro)
         const temaSalvo = localStorage.getItem('mexplica-tema');
         let temaAtivo = temaSalvo !== null ? parseInt(temaSalvo) : 0;
+        if (temaAtivo > 1) temaAtivo = 0;
 
-        // cria o menu dropdown
-        const menu = document.createElement('div');
-        menu.id = 'acc-menu';
-        menu.style.cssText = `
+        const menuAcc = document.createElement('div');
+        menuAcc.id  = 'menu-acc';
+        menuAccEl   = menuAcc;
+        menuAcc.style.cssText = `
             display: none;
             position: absolute;
             top: calc(100% + 8px);
             left: 0;
-            min-width: 180px;
-            border-radius: 12px;
+            width: 300px;
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.13);
             z-index: 200;
-            border: 1.5px solid #e0e0e0;
             background: #ffffff;
+            border: 1.5px solid #e8e8e8;
         `;
 
         accBtn.style.position = 'relative';
@@ -100,110 +306,142 @@ document.addEventListener('DOMContentLoaded', () => {
             item.style.cssText = `
                 display: flex;
                 align-items: center;
-                gap: 10px;
                 width: 100%;
-                padding: 11px 16px;
+                padding: 14px 16px;
                 background: none;
                 border: none;
-                font-family: 'Inter', sans-serif;
-                font-size: 13px;
-                font-weight: 600;
                 cursor: pointer;
                 text-align: left;
-                white-space: nowrap;
+                gap: 12px;
+                transition: background 0.15s;
+                border-bottom: ${i < temas.length - 1 ? '1px solid #f0f0f0' : 'none'};
             `;
 
-            const bolinha = document.createElement('span');
-            bolinha.dataset.bolinha = i;
-            bolinha.style.cssText = `
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                border: 2px solid #cccccc;
-                flex-shrink: 0;
-                transition: background 0.15s, border-color 0.15s;
+            const textos = document.createElement('div');
+            textos.style.cssText = `flex: 1; display: flex; flex-direction: column; gap: 3px;`;
+
+            const lbl = document.createElement('span');
+            lbl.textContent = tema.label;
+            lbl.style.cssText = `
+                font-family: 'Inter', sans-serif;
+                font-size: 13px;
+                font-weight: 700;
+                color: #111111;
             `;
 
-            const texto = document.createElement('span');
-            texto.textContent = tema.label;
+            const sub = document.createElement('span');
+            sub.textContent = tema.sub;
+            sub.style.cssText = `
+                font-family: 'Inter', sans-serif;
+                font-size: 11px;
+                font-weight: 400;
+                color: #888888;
+                line-height: 1.4;
+            `;
 
-            item.appendChild(bolinha);
-            item.appendChild(texto);
+            textos.appendChild(lbl);
+            textos.appendChild(sub);
+
+            const icone = document.createElement('img');
+            icone.src = tema.icone;
+            icone.alt = '';
+            icone.style.cssText = `width: 26px; height: 26px; object-fit: contain; flex-shrink: 0;`;
+
+            item.appendChild(textos);
+            item.appendChild(icone);
+
+            item.addEventListener('mouseenter', () => {
+                const isDark  = document.body.classList.contains('dark-blue');
+                item.style.background = isDark ? '#223344' : '#f7f7f9';
+            });
+            item.addEventListener('mouseleave', () => {
+                item.style.background = 'none';
+            });
 
             item.addEventListener('click', (e) => {
                 e.stopPropagation();
                 aplicarTema(i);
-                fecharMenu();
+                menuAcc.style.display = 'none';
             });
 
-            menu.appendChild(item);
+            menuAcc.appendChild(item);
         });
 
-        accBtn.appendChild(menu);
+        accBtn.appendChild(menuAcc);
 
         function aplicarTema(index) {
             temaAtivo = index;
-
-            // aplica classe no body
             document.body.classList.remove('dark-blue', 'dark-black');
             if (temas[index].classe) {
                 document.body.classList.add(temas[index].classe);
             }
-
-            // salva escolha em localstorage
             localStorage.setItem('mexplica-tema', index);
 
-            // atualiza bolinhas
-            atualizarBolinhas();
+            atualizarEstiloMenuAcc();
+
+            // atualiza tambem o menu de fonte para refletir o novo tema
+            if (menuFonteEl) {
+                const inativo = document.body.classList.contains('dark-blue') ? '#555555' : '#bbbbbb';
+                const fundo   = document.body.classList.contains('dark-blue') ? '#1a2535' : '#ffffff';
+                const borda   = document.body.classList.contains('dark-blue') ? '#2a3f52' : '#e8e8e8';
+                menuFonteEl.style.background  = fundo;
+                menuFonteEl.style.borderColor = borda;
+                menuFonteEl.querySelectorAll('[data-aa], [data-label]').forEach(el => {
+                    const i = parseInt(el.dataset.aa ?? el.dataset.label);
+                    // nivelAtual é acessivel pelo closure do bloco de fonte acima
+                });
+            }
         }
 
-        function atualizarBolinhas() {
-            temas.forEach((_, i) => {
-                const bolinha = menu.querySelector(`[data-bolinha="${i}"]`);
-                if (!bolinha) return;
-                bolinha.style.background  = i === temaAtivo ? '#7B6EF6' : 'transparent';
-                bolinha.style.borderColor = i === temaAtivo ? '#7B6EF6' : '#cccccc';
+        function atualizarEstiloMenuAcc() {
+            const isDark = document.body.classList.contains('dark-blue');
+
+            menuAcc.style.background  = isDark ? '#1a2535' : '#ffffff';
+            menuAcc.style.borderColor = isDark ? '#2a3f52' : '#e8e8e8';
+
+            menuAcc.querySelectorAll('button').forEach((btn, i) => {
+                const spans = btn.querySelectorAll('span');
+                btn.style.borderBottomColor = isDark ? '#2a3f52' : '#f0f0f0';
+                if (spans[0]) spans[0].style.color = isDark ? '#e8e8e8' : '#111111';
+                if (spans[1]) spans[1].style.color = isDark ? '#666666' : '#888888';
             });
-        }
-
-        function atualizarEstiloMenu() {
-            const isBlack = document.body.classList.contains('dark-black');
-            const isDark  = document.body.classList.contains('dark-blue');
-
-            menu.style.background  = isBlack ? '#111111' : isDark ? '#1a2535' : '#ffffff';
-            menu.style.borderColor = isBlack ? '#333333' : isDark ? '#2a3f52' : '#e0e0e0';
-
-            menu.querySelectorAll('button').forEach(btn => {
-                btn.style.color = (isDark || isBlack) ? '#e8e8e8' : '#111111';
-
-                const hoverBg = isBlack ? '#222222' : isDark ? '#2a3f52' : '#f5f5f5';
-                btn.onmouseenter = () => { btn.style.background = hoverBg; };
-                btn.onmouseleave = () => { btn.style.background = 'none'; };
-            });
-        }
-
-        function abrirMenu() {
-            atualizarEstiloMenu();
-            atualizarBolinhas();
-            menu.style.display = 'block';
-        }
-
-        function fecharMenu() {
-            menu.style.display = 'none';
         }
 
         accBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            menu.style.display === 'block' ? fecharMenu() : abrirMenu();
+            const aberto = menuAcc.style.display === 'block';
+            fecharTodosMenus();
+            if (!aberto) {
+                atualizarEstiloMenuAcc();
+                menuAcc.style.display = 'block';
+            }
         });
 
-        document.addEventListener('click', () => fecharMenu());
+        document.addEventListener('click', () => {
+            menuAcc.style.display = 'none';
+        });
 
-        // sincroniza o estado visual do botao e bolinhas com o tema ja aplicado pelo <head>
         aplicarTema(temaAtivo);
     }
 
-    // STEPS - fluxo de cadastro
+    // INPUT DA HOME
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const query = searchInput.value.trim();
+                if (query) {
+                    const grid = document.getElementById('topicGrid');
+                    if (grid) {
+                        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        searchInput.blur();
+                    }
+                }
+            }
+        });
+    }
+
+    // STEPS
     const step1 = document.getElementById('step-1');
     const step2 = document.getElementById('step-2');
     const step3 = document.getElementById('step-3');
@@ -333,7 +571,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (yesCollab) yesCollab.addEventListener('click', () => showStep(step4));
     if (noCollab)  noCollab.addEventListener('click',  () => showStep(step4));
 
-// STEP 3 - INFO COLABORADOR
+    // STEP 3 - INFO COLABORADOR
     const collabInfoLink = document.querySelector('.collab-info-link');
     if (collabInfoLink) {
         collabInfoLink.addEventListener('click', (e) => {
@@ -343,23 +581,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function abrirModalColaborador() {
-
-        // criaçao do overlay
         const overlay = document.createElement('div');
-        overlay.id = 'modal-overlay';
-
-        // criaçao do modal
-        const modal = document.createElement('div');
-        modal.id = 'modal-colaborador';
-
-        // tema
+        const modal   = document.createElement('div');
         const isBlack = document.body.classList.contains('dark-black');
         const isDark  = document.body.classList.contains('dark-blue');
 
         overlay.style.cssText = `
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(0,0,0,0.45);
             z-index: 999;
             display: flex;
             align-items: center;
@@ -370,30 +600,26 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         modal.style.cssText = `
-            background: ${isBlack ? '#111111' : isDark ? '#1a2535' : '#ffffff'};
-            border: 1.5px solid ${isBlack ? '#333333' : isDark ? '#2a3f52' : '#e8e8e8'};
+            background: ${isDark ? '#1a2535' : '#ffffff'};
+            border: 1.5px solid ${isDark ? '#2a3f52' : '#e8e8e8'};
             border-radius: 20px;
             padding: 36px 32px 28px;
             max-width: 440px;
             width: 100%;
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 16px;
             transform: translateY(18px) scale(0.97);
-            transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+            transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s ease;
             opacity: 0;
         `;
 
         const logo = document.createElement('img');
         logo.src = 'icons/logo-mexplica.png';
         logo.alt = 'MEXPLICA';
-        logo.style.cssText = `
-            width: 64px;
-            height: 64px;
-            object-fit: contain;
-        `;
+        logo.style.cssText = `width: 64px; height: 64px; object-fit: contain;`;
 
         const titulo = document.createElement('h2');
         titulo.textContent = 'O que é ser um colaborador?';
@@ -401,7 +627,7 @@ document.addEventListener('DOMContentLoaded', () => {
             font-family: 'Nimbus Sans', sans-serif;
             font-size: 20px;
             font-weight: 700;
-            color: ${isBlack || isDark ? '#e8e8e8' : '#111111'};
+            color: ${isDark ? '#e8e8e8' : '#111111'};
             text-align: center;
             line-height: 1.3;
         `;
@@ -411,8 +637,7 @@ document.addEventListener('DOMContentLoaded', () => {
         texto.style.cssText = `
             font-family: 'Inter', sans-serif;
             font-size: 14px;
-            font-weight: 400;
-            color: ${isBlack || isDark ? '#aaaaaa' : '#555555'};
+            color: ${isDark ? '#aaaaaa' : '#555555'};
             text-align: center;
             line-height: 1.65;
         `;
@@ -446,28 +671,17 @@ document.addEventListener('DOMContentLoaded', () => {
             overlay.style.opacity = '0';
             modal.style.opacity   = '0';
             modal.style.transform = 'translateY(18px) scale(0.97)';
-            setTimeout(() => {
-                if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-            }, 280);
+            setTimeout(() => { if (overlay.parentNode) overlay.parentNode.removeChild(overlay); }, 280);
         }
 
         btnFechar.addEventListener('click', fecharModal);
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) fecharModal(); });
 
-        // clique fora modal fecha
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) fecharModal();
-        });
-
-        // ESC fecha
         function onEsc(e) {
-            if (e.key === 'Escape') {
-                fecharModal();
-                document.removeEventListener('keydown', onEsc);
-            }
+            if (e.key === 'Escape') { fecharModal(); document.removeEventListener('keydown', onEsc); }
         }
         document.addEventListener('keydown', onEsc);
 
-        // aparece
         modal.appendChild(logo);
         modal.appendChild(titulo);
         modal.appendChild(texto);
@@ -484,6 +698,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ANIMAÇAO DE ENTRADA
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
