@@ -126,7 +126,7 @@ button {
 }
 
 .btn-acessar {
-    background: #111111;
+    background: #7B6EF6;
     color: #ffffff;
     padding: 8px 20px;
     border-radius: 999px;
@@ -137,23 +137,7 @@ button {
 }
 
 .btn-acessar:hover {
-    background: #7B6EF6;
-}
-
-.avatar-placeholder {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: #e8e8e8;
-    border: 2px solid #d0d0d0;
-    overflow: hidden;
-    flex-shrink: 0;
-}
-
-.avatar-placeholder img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    background: #3a318a;
 }
 
 .nav-toggle {
@@ -576,7 +560,7 @@ button {
     margin-top: 28px;
 }
 
-/* STEP CARDS - novo layout: card branco com icone colorido, titulo, texto e print da tela */
+/* STEP CARDS */
 .step-card {
     background: #ffffff;
     border: 1.5px solid #e8e8e8;
@@ -589,15 +573,12 @@ button {
     overflow: hidden;
 }
 
-/* mantemos as classes antigas para nao quebrar nada que dependa delas,
-   mas agora elas nao definem mais a cor de fundo do card */
 .step-blue,
 .step-green,
 .step-red {
     background: #ffffff;
 }
 
-/* icone de topico no topo do card, na cor original (sem inverter) */
 .step-topic-icon {
     width: 32px;
     height: 32px;
@@ -1031,12 +1012,12 @@ body.dark-blue .nav-links a {
 }
 
 body.dark-blue .btn-acessar {
-    background: #1e2d3d;
+    background: #7B6EF6;
     color: #e8eaf0;
 }
 
 body.dark-blue .btn-acessar:hover {
-    background: #7B6EF6;
+    background: #3a318a;
 }
 
 body.dark-blue .avatar-placeholder {
@@ -1134,7 +1115,7 @@ body.dark-blue .collab-section {
 /* novo layout dos step-cards (card branco com print) adaptado ao escuro */
 body.dark-blue .step-card {
     background: #1a2535;
-    border-color: #2a3f52;
+    border-color: #7B6EF6;
     color: #e8eaf0;
 }
 
