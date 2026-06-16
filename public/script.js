@@ -303,13 +303,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const temas = [
             {
-                label:  'Modo claro',
+                label:  'Modo Claro',
                 sub:    'Telas claras para melhor visibilidade em locais iluminados',
                 classe: '',
                 icone:  'icons/solzinho.png'
             },
             {
-                label:  'Modo escuro',
+                label:  'Modo Escuro',
                 sub:    'Telas escuras para melhor visibilidade em ambientes com pouca luz',
                 classe: 'dark-blue',
                 icone:  'icons/luazinha.png'
@@ -352,7 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 text-align: left;
                 gap: 12px;
                 transition: background 0.15s;
-                border-bottom: ${i < temas.length - 1 ? '1px solid #f0f0f0' : 'none'};
+                border-bottom: 1px solid #f0f0f0;
             `;
 
             const textos = document.createElement('div');
@@ -363,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
             lbl.style.cssText = `
                 font-family: 'Inter', sans-serif;
                 font-size: 13px;
-                font-weight: 700;
+                font-weight: 600;
                 color: #111111;
             `;
 
@@ -405,6 +405,108 @@ document.addEventListener('DOMContentLoaded', () => {
             menuAcc.appendChild(item);
         });
 
+        // ================================================
+        // MODO CONFORTO OCULAR - item com toggle switch (nao fecha o menu ao clicar)
+        // por enquanto so liga/desliga visualmente; a funcionalidade de night-shift
+        // sera implementada depois
+        // ================================================
+        const confortoSalvo = localStorage.getItem('mexplica-conforto-ocular');
+        let confortoAtivo = confortoSalvo === 'true';
+
+        const itemConforto = document.createElement('div');
+        itemConforto.style.cssText = `
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 14px 16px;
+            gap: 12px;
+            border-bottom: none;
+        `;
+
+        const textosConforto = document.createElement('div');
+        textosConforto.style.cssText = `flex: 1; display: flex; flex-direction: column; gap: 3px;`;
+
+        const lblConforto = document.createElement('span');
+        lblConforto.textContent = 'Modo Conforto Ocular';
+        lblConforto.style.cssText = `
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #111111;
+        `;
+
+        const subConforto = document.createElement('span');
+        subConforto.textContent = 'Previne a fadiga visual, ressecamento ocular';
+        subConforto.style.cssText = `
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 400;
+            color: #888888;
+            line-height: 1.4;
+        `;
+
+        textosConforto.appendChild(lblConforto);
+        textosConforto.appendChild(subConforto);
+
+        // toggle switch (trilho + bolinha)
+        const switchWrap = document.createElement('button');
+        switchWrap.setAttribute('aria-label', 'Ativar modo conforto ocular');
+        switchWrap.setAttribute('role', 'switch');
+        switchWrap.style.cssText = `
+            position: relative;
+            width: 40px;
+            height: 22px;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            flex-shrink: 0;
+            background: ${confortoAtivo ? '#7B6EF6' : '#cccccc'};
+            transition: background 0.2s;
+            padding: 0;
+        `;
+
+        const switchBolinha = document.createElement('span');
+        switchBolinha.style.cssText = `
+            position: absolute;
+            top: 2px;
+            left: ${confortoAtivo ? '20px' : '2px'};
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            transition: left 0.2s;
+        `;
+        switchWrap.appendChild(switchBolinha);
+
+        // icone do olho ao lado do switch
+        const iconeOlho = document.createElement('img');
+        iconeOlho.src = 'icons/olho.png';
+        iconeOlho.alt = '';
+        iconeOlho.style.cssText = `width: 26px; height: 26px; object-fit: contain; flex-shrink: 0;`;
+
+        function atualizarSwitchConforto() {
+            switchWrap.style.background = confortoAtivo ? '#7B6EF6' : '#cccccc';
+            switchBolinha.style.left = confortoAtivo ? '20px' : '2px';
+            switchWrap.setAttribute('aria-checked', confortoAtivo ? 'true' : 'false');
+        }
+
+        switchWrap.addEventListener('click', (e) => {
+            e.stopPropagation();
+            confortoAtivo = !confortoAtivo;
+            localStorage.setItem('mexplica-conforto-ocular', confortoAtivo);
+            atualizarSwitchConforto();
+            // a logica do filtro night-shift sera implementada em uma proxima etapa
+        });
+
+        atualizarSwitchConforto();
+
+        itemConforto.appendChild(textosConforto);
+        itemConforto.appendChild(switchWrap);
+        itemConforto.appendChild(iconeOlho);
+
+        menuAcc.appendChild(itemConforto);
+
         accBtn.appendChild(menuAcc);
 
         function aplicarTema(index) {
@@ -430,12 +532,19 @@ document.addEventListener('DOMContentLoaded', () => {
             menuAcc.style.borderColor = isDark ? '#2a3f52' : '#e8e8e8';
 
             menuAcc.querySelectorAll('button').forEach((btn, i) => {
+                // ignora o switch de conforto ocular, que tem seu proprio estilo de cor de fundo
+                if (btn === switchWrap) return;
                 btn.style.background = 'none';
                 const spans = btn.querySelectorAll('span');
                 btn.style.borderBottomColor = isDark ? '#2a3f52' : '#f0f0f0';
                 if (spans[0]) spans[0].style.color = isDark ? '#e8e8e8' : '#111111';
                 if (spans[1]) spans[1].style.color = isDark ? '#666666' : '#888888';
             });
+
+            // estiliza o item de conforto ocular separadamente
+            itemConforto.style.borderBottomColor = isDark ? '#2a3f52' : '#f0f0f0';
+            lblConforto.style.color = isDark ? '#e8e8e8' : '#111111';
+            subConforto.style.color = isDark ? '#666666' : '#888888';
         }
 
         function abrirMenuAcc() {
@@ -657,8 +766,8 @@ document.addEventListener('DOMContentLoaded', () => {
         titulo.textContent = 'O que é ser um colaborador?';
         titulo.style.cssText = `
             font-family: 'Nimbus Sans', sans-serif;
-            font-size: 20px;
-            font-weight: 700;
+            font-size: 25px;
+            font-weight: 500;
             color: ${isDark ? '#e8e8e8' : '#111111'};
             text-align: center;
             line-height: 1.3;
