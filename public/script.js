@@ -34,6 +34,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ================================================
+    // TROCA DE IMAGENS DE PRINT - claro/escuro
+    // mapa fixo com os nomes exatos de cada par claro/escuro
+    // ================================================
+    const mapaImagensPrint = {
+        'icons/print-1-novo.png': 'icons/print-1-dark-novo.png',
+        'icons/print-2.png':      'icons/print-2-dark.png',
+        'icons/print-3-novo.png': 'icons/print-3-dark-novo.png',
+        'icons/print-4.png':      'icons/print-4-dark.png',
+    };
+
+    const mapaInverso = {};
+    Object.entries(mapaImagensPrint).forEach(([claro, escuro]) => {
+        mapaInverso[escuro] = claro;
+    });
+
+    function atualizarImagensPrint() {
+        const isDark = document.body.classList.contains('dark-blue');
+
+        document.querySelectorAll('.step-print img').forEach(img => {
+            const src = img.getAttribute('src');
+            if (!src) return;
+
+            if (isDark) {
+                const escuro = mapaImagensPrint[src];
+                if (escuro) img.setAttribute('src', escuro);
+            } else {
+                const claro = mapaInverso[src];
+                if (claro) img.setAttribute('src', claro);
+            }
+        });
+    }
+
+    // ================================================
+    // MODO CONFORTO OCULAR - logica central (night-shift)
+    // aplica/remove um filtro quente no <html> inteiro,
+    // funcionando tanto no modo claro quanto no escuro
+    // ================================================
+    function aplicarConfortoOcular(ativo) {
+        if (ativo) {
+            document.documentElement.style.filter =
+                'sepia(0.25) saturate(0.9) brightness(0.97)';
+        } else {
+            document.documentElement.style.filter = '';
+        }
+    }
+
+    // ================================================
     // BOTAO AUMENTAR TEXTO - dropdown com slider arrastavel
     // ================================================
     const fontBtn = document.getElementById('toggleFontSize');
@@ -406,12 +453,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // ================================================
-        // MODO CONFORTO OCULAR - item com toggle switch (nao fecha o menu ao clicar)
-        // por enquanto so liga/desliga visualmente; a funcionalidade de night-shift
-        // sera implementada depois
+        // MODO CONFORTO OCULAR - item com toggle switch
         // ================================================
         const confortoSalvo = localStorage.getItem('mexplica-conforto-ocular');
         let confortoAtivo = confortoSalvo === 'true';
+
+        // aplica o estado salvo imediatamente ao carregar a pagina
+        aplicarConfortoOcular(confortoAtivo);
 
         const itemConforto = document.createElement('div');
         itemConforto.style.cssText = `
@@ -496,7 +544,8 @@ document.addEventListener('DOMContentLoaded', () => {
             confortoAtivo = !confortoAtivo;
             localStorage.setItem('mexplica-conforto-ocular', confortoAtivo);
             atualizarSwitchConforto();
-            // a logica do filtro night-shift sera implementada em uma proxima etapa
+            // aplica ou remove o filtro night-shift
+            aplicarConfortoOcular(confortoAtivo);
         });
 
         atualizarSwitchConforto();
@@ -516,6 +565,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.classList.add(temas[index].classe);
             }
             localStorage.setItem('mexplica-tema', index);
+
+            // troca as imagens de print para a versao correta do tema
+            atualizarImagensPrint();
 
             atualizarEstiloMenuAcc();
             
@@ -579,6 +631,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.addEventListener('click', () => fecharMenuAcc());
 
+        // aplica o tema salvo ao carregar (incluindo troca de imagens)
         aplicarTema(temaAtivo);
     }
 

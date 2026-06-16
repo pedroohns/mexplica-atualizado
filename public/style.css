@@ -134,6 +134,7 @@ button {
     font-size: 14px;
     font-weight: 500;
     transition: background 0.18s ease;
+    border: 1px solid #111;
 }
 
 .btn-acessar:hover {
@@ -603,18 +604,32 @@ button {
     line-height: 1.5;
 }
 
-/* print da tela correspondente a etapa */
+/* ================================================
+   PRINT DA TELA - container e imagem
+   melhorias de qualidade: sem compressão extra,
+   rendering otimizado, transição suave ao trocar tema
+   ================================================ */
 .step-print {
     border: 1.5px solid #e8e8e8;
     border-radius: 12px;
     overflow: hidden;
     margin-top: 6px;
+    background: #f5f5f7;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
 }
 
 .step-print img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
     display: block;
+    transition: opacity 0.3s ease;
+    image-rendering: auto;
 }
 
 
@@ -1127,8 +1142,11 @@ body.dark-blue .step-card p {
     color: #8eacc4;
 }
 
+/* container do print no modo escuro */
 body.dark-blue .step-print {
     border-color: #2a3f52;
+    background: #0f1923;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
 }
 
 body.dark-blue .footer {
